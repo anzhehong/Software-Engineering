@@ -7,7 +7,7 @@ import com.camplus.service.CarpoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
@@ -206,11 +206,12 @@ public class CarpoolController {
         }
     }*/
 
-    @RequestMapping("/detail")
-    public String getDetail(String orderId,Model orderInfo){
-        CarpoolOrder o=carpoolService.getDetailbyId(orderId);
-        orderInfo.addAttribute("orderinfo",o);
-        return "/Carpool/carpoolDetail";
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public @ResponseBody CarpoolOrder getDetail(@RequestParam(value = "orderId", required = true)String orderId,Model orderInfo){
+        CarpoolOrder order=carpoolService.getDetailbyId(orderId);
+        orderInfo.addAttribute("orderinfo",order);
+//        return "/Carpool/carpoolDetail";
+        return order;
     }
 
     @RequestMapping("/cancel")
