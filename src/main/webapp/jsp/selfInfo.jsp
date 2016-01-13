@@ -3,162 +3,163 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <title>Course Discussion 课程讨论 | Home :: CPCoders</title>
-  <link href="/camplus/CSS/index/style.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/JFFormStyle-1.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-  <!-- web-font -->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
-  <!-- web-font -->
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/jquery.min.js"></script>
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <!-- start-smoth-scrolling -->
-  <script type="text/javascript" src="/camplus/JavaScript/index/move-top.js"></script>
-  <script type="text/javascript" src="/camplus/JavaScript/index/easing.js"></script>
-  <script src="/camplus/JavaScript/jquery.js"></script>
-  <script src="/camplus/JavaScript/jquery.validate.js"></script>
-  <script src="/camplus/JavaScript/loginAndRegister/customer-validate.js"></script>
-  <script type="text/javascript">
-
-    jQuery(document).ready(function($) {
-      $(".scroll").click(function(event){
-        event.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-      });
-    });
-  </script>
-  <script type="text/javascript">
-    function showsubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="block";
-    }
-    function hidesubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="none";
-    }
-  </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Self Information | Camplus</title>
+    <!-- bootstrap css -->
+    <link href="../external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap js -->
+    <script src="../external/jQuery/jquery-1.11.3.min.js"></script>
+    <script src="../external/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../js/selfinfo.js"></script>
+    <!-- custom -->
+    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/selfinfo.css">
 </head>
-
 <body>
-<%
-  User currentUser = (User)session.getAttribute("userSession");
-  String userName = currentUser.getUserName();
-%>
+    <div class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <!-- TODO: 这里要添加所有标签的URL -->
+                <ul class="nav navbar-nav">
+                    <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
+                    <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value="/gallery"></c:url>">Album</a></li>
+                            <li><a href="<c:url value="/gallery/hotComment"></c:url>">Hot</a></li>
+                            <li><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Information<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value="/information/locationHome"></c:url>">Map</a></li>
+                            <li><a href="<c:url value="/restaurant"></c:url> ">Take Out</a></li>
+                            <li><a href="<c:url value="/information/busTimeHome"></c:url>">Shuttle</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
-<div class="headerChild">
-  <div class="log">
-    <div class="quit"><a href="<c:url value="/logout"></c:url>">Logout</a> </div>
-    <p><a href="<c:url value="/user/editInfo"></c:url>">Hello,<%=userName%></a> </p>  </div>
-  <div class="head-bg">
-    <!-- container -->
-    <div class="container">
-      <div class="head-logo">
-        <a href="/camplus/jsp/index.jsp"><img src="/camplus/Images/index/logo1.png" alt="" /></a>
-      </div>
-      <div class="top-nav">
-        <span class="menu"><img src="/camplus/Images/index/menu.png" alt=""></span>
-        <ul class="cl-effect-1">
-          <li><a href="/camplus/jsp/index.jsp">Home</a></li>
+          <%
+                  User currentUser = (User)session.getAttribute("userSession");
+                  String userName = currentUser.getUserName();
+                  String userId = currentUser.getUserId();
+          %>
 
-          <li><a href="<c:url value="/carpool/select"></c:url> ">Carpool</a></li>
-          <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a> </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)"><a>Gallery</a>
-            <ul class="submenu">
-              <dd><a href="<c:url value="/gallery"></c:url> ">Album</a></dd>
-              <dd><a href="<c:url value="/gallery/hotComment"></c:url> ">Hot</a></dd>
-              <dd><a href="<c:url value="/gallery/mySpace"></c:url> ">MySpace</a></dd>
-            </ul>
-          </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)"><a>Information</a>
-            <ul class="subMenu">
-              <dd><a href="<c:url value="/information/locationHome"></c:url> ">Map</a></dd>
-              <dd><a href="<c:url value="/restaurant"></c:url> ">Takeout</a></dd>
-              <dd><a href="<c:url value="/information/busTimeHome"></c:url> ">Shuttle</a></dd>
-            </ul>
-          </li>
-        </ul>
-        <!-- script-for-menu -->
-        <script>
-          $( "span.menu" ).click(function() {
-            $( "ul.cl-effect-1" ).slideToggle( 300, function() {
-              // Animation complete.
-            });
-          });
-        </script>
-        <!-- /script-for-menu -->
-      </div>
-      <div class="clearfix"> </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- TODO: 这里要处理一下session，现在注释的部分是没有登录的 -->
+                   <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
+                    <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button>-->
+                     <li class="active"><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
+                    <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li> 
+                </ul>
+            </div>
+        </div>
     </div>
-    <!-- //container -->
-  </div>
-</div>
-
-
-<div class="booking-info">
-  <h3>个人信息</h3>
-</div>
-<form method="post" action="/camplus/user/editInfo" id="selfInfoChangeForm">
-<div class="online_reservation" style="margin-bottom: 30px">
-  <div class="b_room">
-    <div class="booking_room">
-      <div class="reservation" style="background: #f5f5f5;border: thin solid #c5c5c5;border-radius: 1%;width:600px; height: 500px">
-        <ul>
-          <li class="span1_of_1" style="margin-left: 30px">
-            <h4 style="font-weight: lighter">学号</h4>
-            <div class="book_date"style="border: thin solid #c5c5c5;border-radius: 3px">
-              <input type="text"  name="uid"  id="uid" value="${studentnum}" contenteditable="false">
+    <div class="container body">
+        <div class="page-header text-center">
+            <h1>Self Information</h1>
+            <p>You can change your information here.</p>
+        </div>
+        <!-- TODO: 表单提交 -->
+        <form method="post" action="/camplus/user/editInfo" id="selfInfoChangeForm">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group" id="uid-form">
+                        <div class="text-center">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><img class="img-circle" src="../images/avatar/1.jpg" width="120" height="120" id="avatar-img"></a>
+                        </div>
+                        <!-- TODO: 这里我写好js了，会把选择的图片名字放在下面input的value里，拿value就好，初始的value和上面放图片的url相对 -->
+                        <input type="text" style="display:none;" name="avatar" class="form-control" id="avatar" value="" contenteditable="false">
+                    </div>
+                    <div class="form-group" id="uid-form">
+                        <label>Student Number:</label>
+                        <input type="text"  name="uid" class="form-control" id="uid" value="<%=userId%>" contenteditable="false">
+                    </div>
+                    <div class="form-group" id="uname-form">
+                        <label>User Name:</label>
+                        <input type="text"  name="uname" class="form-control" id="uname" value="<%=userName%>" placeholder="need more than 6 characters...">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group" id="pwd-form">
+                        <label>Password:</label>
+                        <input type="password"  name="password" class="form-control" id="password" value="" placeholder="need more than 6 characters...">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group" id="contact-form">
+                        <label>Contact Number:</label>
+                        <input type="text"  name="contact" class="form-control" id="contact" value="">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
             </div>
-          </li>
-          <div class="clearfix"></div>
-          <li class="span1_of_1" style="margin-left: 30px">
-            <h4 style="font-weight: lighter">用户名</h4>
-            <div class="book_date"style="border: thin solid #c5c5c5;border-radius: 3px">
-              <input type="text" class="uname" name="uname" id="uname" value="" >
-            </div>
-          </li>
-          <div class="clearfix"></div>
-          <li class="span1_of_1" style="margin-left: 30px">
-            <h4 style="font-weight: lighter">密码</h4>
-            <div class="book_date"style="width:300px;border: thin solid #c5c5c5;border-radius: 3px">
-              <input type="password" class="password" name="password" id="password" value="" >
-            </div>
-          </li>
-          <div class="clearfix"></div>
-          <li class="span1_of_1" style="margin-left: 30px">
-            <h4 style="font-weight: lighter">重输密码</h4>
-            <div class="book_date"style="width:300px;border: thin solid #c5c5c5;border-radius: 3px">
-              <input type="password" value="" class="repassword" name="repassword" id="repassword">
-            </div>
-          </li>
-          <div class="clearfix"></div>
-          <li class="span1_of_1" style="margin-left: 30px">
-            <h4 style="font-weight: lighter">联系方式</h4>
-            <div class="book_date"style="width:300px;border: thin solid #c5c5c5;border-radius: 3px">
-              <input type="text" value="" id="contact" name="contact" id="contact">
-            </div>
-          </li>
-          <div class="clearfix"></div>
-          <li class="span1_of_3">
-            <div class="date_btn" style="margin-left: 120px;margin-top: 20px">
-              <input type="submit" value="修改" style="text-align: center;font-size:18px;font-weight: bold;height: 40px;width:200px;background-color: #FFD700;border-radius: 6px"/>
-            </div>
-          </li>
-        </ul>
-      </div>
+        </form>
     </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
-</form>
-
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Choose an avatar for yourself!</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(1)"><img class="img-circle img-responsive" src="../images/avatar/1.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(2)"><img class="img-circle img-responsive" src="../images/avatar/2.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(3)"><img class="img-circle img-responsive" src="../images/avatar/3.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(4)"><img class="img-circle img-responsive" src="../images/avatar/4.jpg"></a></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(5)"><img class="img-circle img-responsive" src="../images/avatar/5.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(6)"><img class="img-circle img-responsive" src="../images/avatar/6.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(7)"><img class="img-circle img-responsive" src="../images/avatar/7.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(8)"><img class="img-circle img-responsive" src="../images/avatar/8.jpg"></a></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+    <footer class="home-footer">
+        <div class="home-footer-text">
+            <p>Address: 4800 Cao An Road, Jiading District, Shanghai</p>
+            <p>email: Fowafolo@gmail.com</p>
+            <p>&copy; 2015-2016  &middot; <a href="home">Camplus</a> &middot; All rights reserved.</p>
+        </div>
+    </footer>
+    <script type="text/javascript">
+        function choosePic (index) {
+            $("#avatar").attr("value",index);
+            // TODO: 修改这里图片的路径
+            $("#avatar-img").attr("src", "/camplus/images/avatar/" + index + ".jpg");
+            $("#myModal").modal('hide');
+        }    
+    </script>
 </body>
 </html>

@@ -55,11 +55,11 @@ public class CourseDiscussionController {
     }
 
     @RequestMapping("/commitMsg")
-    public String commitMessage(String msgtitle,String msgcontent,HttpSession session,Model msginfo){
+    public void commitMessage(String msgtitle, String msgcontent, HttpSession session, Model courseInfo){
         CourseMessage cm=new CourseMessage();
         User user=(User)session.getAttribute("userSession");
-        cm.setCourseMessId(user.getUserId()+new Date().getTime());
-        cm.setCourseId((String)session.getAttribute("courseId"));
+        cm.setCourseMessId(user.getUserId() + new Date().getTime());
+        cm.setCourseId((String) session.getAttribute("courseId"));
         cm.setCourseMessAgree(0);
         cm.setCourseMessDissagree(0);
         cm.setCourseMessGiverId(user.getUserId());
@@ -67,8 +67,9 @@ public class CourseDiscussionController {
         cm.setCourseMessTitle(msgtitle);
         cm.setCourseMessGiverTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         courseMsgService.commitMessage(cm);
-        msginfo.addAttribute("userName",user.getUserName());
-        return "CourseDiscussion/commitSuccess";
+
+
+   //     return "CourseDiscussion/showDiscussionBoard?";
     }
 
 }

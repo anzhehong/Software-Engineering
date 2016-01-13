@@ -183,7 +183,7 @@ public class GalleryController {
                 model.addAttribute("givenMessage","Please select a file!");
                 return "Gallery/galleryNotification";
             }else {
-                String path = session.getServletContext().getRealPath("/Images/gallery");
+                String path = session.getServletContext().getRealPath("/images/gallery");
                 String tmpName = image.getOriginalFilename();
                 Scanner sc = new Scanner(tmpName);
                 sc.useDelimiter("\\.");

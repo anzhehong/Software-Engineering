@@ -2,186 +2,183 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.camplus.entity.User" %>
 
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <title>Gallery Hot Comment || Home :: CPCoders</title>
-  <link href='http://fonts.googleapis.com/css?family=Anaheim' rel='stylesheet' type='text/css'>
-  <meta name="keywords" content="Showcase Gallery iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-  <link rel="stylesheet" href="/camplus/CSS/gallery/reset.css" type="text/css" media="all" />
-
-  <link href="/camplus/CSS/index/style.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/JFFormStyle-1.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-
-  <link type="text/css" rel="stylesheet" href="http://dreamtemplate.com/dreamcodes/buttons_css3/css/tsc_button_styles.css" />
-
-  <!-- web-font -->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
-  <!-- web-font -->
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/jquery.min.js"></script>
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <!-- start-smoth-scrolling -->
-  <script type="text/javascript" src="/camplus/JavaScript/index/move-top.js"></script>
-  <script type="text/javascript" src="/camplus/JavaScript/index/easing.js"></script>
-  <script type="text/javascript">
-    jQuery(document).ready(function($) {
-      $(".scroll").click(function(event){
-        event.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-      });
-    });
-  </script>
-  <script type="text/javascript">
-    function showsubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="block";
-    }
-    function hidesubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="none";
-    }
-  </script>
-  <link href='http://fonts.googleapis.com/css?family=Anaheim' rel='stylesheet' type='text/css'>
-  <meta name="keywords" content="Showcase Gallery iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-  <link rel="stylesheet" href="/camplus/CSS/gallery/reset.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="/camplus/CSS/gallery/style.css" type="text/css" media="all" />
-  <link type="text/css" rel="stylesheet" href="http://dreamtemplate.com/dreamcodes/buttons_css3/css/tsc_button_styles.css" />
-  <script type="text/javascript" src="/camplus/JavaScript/gallery/jquery.js"></script>
-  <script type="text/javascript" src="/camplus/JavaScript/gallery/jquery.lightbox.js"></script>
-  <link rel="stylesheet" type="text/css" href="/camplus/CSS/gallery/lightbox.css" media="screen" />
-  <script type="text/javascript">
-    $(function() {
-      $('.gallery a').lightBox();
-    });
-  </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Space | Camplus</title>
+    <!-- bootstrap css -->
+    <link href="/camplus/external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap js -->
+    <script src="/camplus/external/jQuery/jquery-1.11.3.min.js"></script>
+    <script src="/camplus/external/bootstrap/js/bootstrap.min.js"></script>
+    <!-- custom -->
+    <link rel="stylesheet" type="text/css" href="/camplus/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/camplus/css/gallery.css">
+    <link rel="stylesheet" type="text/css" href="/camplus/css/myspace.css">
 </head>
-
-
-<%
-  User currentUser = (User)session.getAttribute("userSession");
-  String userName = currentUser.getUserName();
-%>
-<div class="headerChild">
-  <div class="log">
-    <div class="quit"><a href="<c:url value="/logout"></c:url>">Logout</a> </div>
-    <p><a href="<c:url value="/user/editInfo"></c:url>">Hello,<%=userName%></a> </p>  </div>
-  <div class="head-bg">
-    <!-- container -->
-    <div class="container">
-      <div class="head-logo">
-        <a href="/camplus/jsp/index.jsp"><img src="/camplus/Images/index/logo1.png" alt="" /></a>
-      </div>
-      <div class="top-nav">
-        <span class="menu"><img src="/camplus/Images/index/menu.png" alt=""></span>
-        <ul class="cl-effect-1">
-          <li><a href="/camplus/jsp/index.jsp">Home</a></li>
-
-          <li><a href="<c:url value="/carpool/select"></c:url> ">Carpool</a></li>
-          <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a> </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)"><a>Gallery</a>
-            <ul class="submenu">
-              <dd><a href="<c:url value="/gallery"></c:url> ">Album</a></dd>
-              <dd><a href="<c:url value="/gallery/hotComment"></c:url> ">Hot</a></dd>
-              <dd><a href="<c:url value="/gallery/mySpace"></c:url> ">MySpace</a></dd>
-            </ul>
-          </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)" ><a>Information</a>
-            <ul class="subMenu">
-              <dd><a href="<c:url value="/information/locationHome"></c:url> ">Map</a></dd>
-              <dd><a href="<c:url value="/restaurant"></c:url> ">Takeout</a></dd>
-              <dd><a href="<c:url value="/information/busTimeHome"></c:url> ">Shuttle</a></dd>
-            </ul>
-          </li>
-        </ul>
-        <!-- script-for-menu -->
-        <script>
-          $( "span.menu" ).click(function() {
-            $( "ul.cl-effect-1" ).slideToggle( 300, function() {
-              // Animation complete.
-            });
-          });
-        </script>
-        <!-- /script-for-menu -->
-      </div>
-      <div class="clearfix"> </div>
-    </div>
-    <!-- //container -->
-  </div>
-</div>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>定义input type="file" 的样式</title>
-  <style type="text/css">
-    body{ font-size:14px;}
-    input{ vertical-align:middle; margin:0; padding:0}
-    .file-box{ position:relative;width:340px}
-    .txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
-    .btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
-    .file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
-  </style>
-
-</head>
-
 <body>
-<div class="online_reservation">
-<div class="b_room">
-<div class="booking_room">
-<div class="reservation">
-  <form action="/camplus/gallery/upload" method="post" enctype="multipart/form-data">
-    <ul>
-      <li class="span1_of_3">
-        <div class="file-box">
-          <input type="file" name="image"/>
-          <br>
-          <input type="submit" name="submit" value="上传" style="font-size:18px;font-weight: bold;height: 40px;width:180px;background-color: #FFD700;border-radius: 6px"/>
+  <div class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <!-- TODO: 这里要添加所有标签的URL -->
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
+                    <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value="/gallery"></c:url>">Album</a></li>
+                            <li><a href="<c:url value="/gallery/hotComment"></c:url>">Hot</a></li>
+                            <li><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Information<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<c:url value="/information/locationHome"></c:url>">Map</a></li>
+                            <li><a href="<c:url value="/restaurant"></c:url> ">Take Out</a></li>
+                            <li><a href="<c:url value="/information/busTimeHome"></c:url>">Shuttle</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+          <%
+                  User currentUser = (User)session.getAttribute("userSession");
+                  String userName = currentUser.getUserName();
+          %>
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- TODO: 这里要处理一下session，现在注释的部分是没有登录的 -->
+                   <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
+                    <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button>-->
+                     <li><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
+                    <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li> 
+                </ul>
+            </div>
         </div>
-      </li>
-      <div class="clearfix"></div>
-    </ul>
-  </form>
-</div>
-</div>
-  <div class="clearfix"></div>
-</div>
-</div>
-<br>
-<div class="booking-info">
-  <h3>我的空间</h3>
-</div>
-<div class="gallery">
-  <div class="wrap">
-    <ul>
-      <style type="text/css">
-        .delForm {
-          margin-left : 125px;
-        }
-        .pics {
-          display: inline-block;
-        }
-      </style>
+    </div>
+    <div class="container body">
+        <div class="page-header text-center">
+            <h1>My Space</h1>
+            <p>Upload your picture or view your pictures!</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4>Upload</h4>
+                    </div>
+                    <!-- TODO: 上传表单 -->
+                    <div class="panel-body">
+                        <form action="/camplus/gallery/upload" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="file" id="exampleInputFile" name="image">
+                            </div>
+                            <div class="text-center">
+                            <button type="submit" name="submit" class="btn btn-success">Submit</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="center">
+                    <br>
+                    <div id="masonry" class="container-fluid">
+                        <!-- TODO: 一个box为一个单位，动态添加图片 -->
+                        <c:forEach items="${images}" var="image">
+                        <div class="box">
+                            <div class="thumbnail">
+                                <br>
+                                <div class="text-center">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="caption text-center">
+                                    <!-- TODO: 填入图片 -->
+                                    <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
+                                    <hr>
+                                    <!-- TODO: 删除图片 -->
+                                    <form action="/camplus/gallery/mySpace" type="get" class = 'delForm'>
+                                    <div class="text-center">
+                                    <input type="hidden" name="imageid" value="${image.galleryImageId}"/>
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </c:forEach>
+                        
+                    </div>
 
-      <c:forEach items="${images}" var="image">
-     <div class = 'pics'>
-        <img src="/camplus/Images/gallery/s${image.galleryImageId}.png" alt="Image" style="margin:15px"/>
-        <form action="/camplus/gallery/mySpace" type="get" class = 'delForm'>
-          <input type="hidden" name="imageid" value="${image.galleryImageId}"/>
-          <input type="submit" value="删除"/>
-        </form>
-       </div>
-      </c:forEach>
-      <div class="clear"></div>
-    </ul>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <!--             <nav>
+              
+                <ul class="pager">
+                    <li><a href="#" class="inverse">Head</a></li>
+                    <li><a href="#">Previous</a></li>
+                    <li><a href="#">Next</a></li>
+                    <li><a href="#" class="inverse">Tail</a></li>
+                </ul>
+            </nav>TODO: 翻页功能 -->
+        </div>
+    </div>
+    
+    <hr>
+    <footer class="home-footer">
+        <div class="home-footer-text">
+            <p>Address: 4800 Cao An Road, Jiading District, Shanghai</p>
+            <p>email: Fowafolo@gmail.com</p>
+            <p>&copy; 2015-2016  &middot; <a href="home">Camplus</a> &middot; All rights reserved.</p>
+        </div>
+    </footer>
 
-
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">View Picture</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- TODO: 填入图片 -->
+                    <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
+                    <h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/camplus/external/jQuery/jquery.masonry.min.js"></script> 
+    <script type="text/javascript">
+        $(function(){
+            var $container = $('#masonry');
+            $container.imagesLoaded( function(){
+                $container.masonry({
+                    itemSelector : '.box',
+                    gutterWidth : 0,
+                    isAnimated: true,
+                });
+            });
+        });
+    </script>
 </body>
 </html>

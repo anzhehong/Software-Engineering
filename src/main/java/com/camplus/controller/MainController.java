@@ -129,9 +129,8 @@ private UserService userService;
         message.setContent(messageToSend);
         message.setDatato("anzhehong@126.com");
         message.setDatafrom("anzhehong@qq.com");
-        message.setPassword("661518");
+        message.setPassword("AzhSr19940402");
 
-        System.out.println("lalallaalalaldfjlasdjfl j121231231231231231231231231231231");
         System.out.println(s);
         System.out.println(messageToSend);
 
