@@ -4,10 +4,11 @@ import com.camplus.entity.CarpoolOrder;
 import com.camplus.entity.CommenPlace;
 import com.camplus.entity.User;
 import com.camplus.service.CarpoolService;
+import com.camplus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ public class CarpoolController {
 
     @Autowired
     CarpoolService carpoolService;
+    @Autowired
+    UserService userService;
 
 
     @RequestMapping("/select")
@@ -206,30 +209,37 @@ public class CarpoolController {
         }
     }*/
 
-    @RequestMapping("/detail")
-    public String getDetail(String orderId,Model orderInfo){
-        CarpoolOrder o=carpoolService.getDetailbyId(orderId);
-        orderInfo.addAttribute("orderinfo",o);
-        return "/Carpool/carpoolDetail";
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public @ResponseBody Map getDetail(@RequestParam(value = "orderId", required = true)
+                                           String orderId,String ownerId,
+                                       Model orderInfo, HttpSession session){
+        CarpoolOrder order=carpoolService.getDetailbyId(orderId);
+        orderInfo.addAttribute("orderinfo",order);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("orderinfo",order);
+        boolean cancelButton = false;
+        String userId = ((User)session.getAttribute("userSession")).getUserId();
+        if (order.getCarpoolSubscriber().equals(userId))
+            cancelButton = true;
+        String phoneNum = userService.getById(ownerId).getUserMobile();
+        result.put("cancelButton",cancelButton);
+        result.put("phoneNum",phoneNum);
+        return result;
     }
 
-    @RequestMapping("/cancel")
-    public String cancenDetail(String oid,String ownerId,HttpSession session,Model model){
-        Scanner scor=new Scanner(oid);
-        scor.useDelimiter(":");
-        String p1=scor.next();
-        String p2=scor.next().trim();
-        Scanner scow=new Scanner(ownerId);
-        scow.useDelimiter(":");
-        String q1=scow.next();
-        String q2=scow.next();
-        if(((User)session.getAttribute("userSession")).getUserId().equals(q2)) {
-            carpoolService.cancelOrderbyId(p2);
-            model.addAttribute("givenMessage","Your Request Successfully Cancelled");
-            return "/Carpool/carpoolNotification";
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    public @ResponseBody String cancenDetail(@RequestParam(value = "orderId", required = true)String orderId,
+                                             @RequestParam(value = "ownerId", required = true)String ownerId,
+                                             HttpSession session,Model model){
+        String returnMessage;
+        if(((User)session.getAttribute("userSession")).getUserId().equals(ownerId)) {
+            carpoolService.cancelOrderbyId(orderId);
+            System.out.print(orderId);
+            returnMessage = "success";
+            return returnMessage;
         }else{
-            model.addAttribute("givenMessage","Your Request Failed : Permission Denied!");
-            return "/Carpool/carpoolNotification";
+            returnMessage = "fail";
+            return returnMessage;
         }
     }
 

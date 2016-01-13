@@ -3,506 +3,361 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <title>Carpool 拼车区 | Home :: CPCoders</title>
-  <link href="/camplus/CSS/index/style.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/JFFormStyle-1.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="/camplus/CSS/index/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-  <!-- web-font -->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
-  <!-- web-font -->
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/jquery.min.js"></script>
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-  <!-- js -->
-  <script src="/camplus/JavaScript/index/modernizr.custom.js"></script>
-  <!-- start-smoth-scrolling -->
-  <script type="text/javascript" src="/camplus/JavaScript/index/move-top.js"></script>
-  <script type="text/javascript" src="/camplus/JavaScript/index/easing.js"></script>
-  <script type="text/javascript">
-    jQuery(document).ready(function($) {
-      $(".scroll").click(function(event){
-        event.preventDefault();
-        $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+  <c:set var="bp" value="${pageContext.request.contextPath}"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carpool | Camplus</title>
+  <!-- bootstrap css -->
+  <link href="${bp}/external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- bootstrap js -->
+  <script src="${bp}/external/jQuery/jquery-1.11.3.min.js"></script>
+  <script src="${bp}/external/bootstrap/js/bootstrap.min.js"></script>
+  <!-- custom -->
+  <link rel="stylesheet" type="text/css" href="${bp}/CSS/navbar.css">
+  <link rel="stylesheet" type="text/css" href="${bp}/CSS/carpool.css">
+  <link rel="stylesheet" type="text/css" href="${bp}/external/datepicker/css/bootstrap-datetimepicker.min.css">
+  <script>
+    function getCarpoolDetail(btn) {
+      var orderid = $(btn).parent().prevAll("#orderid").text();
+      var ownerid = $(btn).parent().prevAll("#ownerid").text();
+      $.ajax({
+        url: "/camplus/carpool/detail",
+        data: {
+          orderId: orderid,
+          ownerId: ownerid
+        },
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+          $("#modal-orderid").html(response.orderinfo.carpoolId);
+          $("#modal-contact").html(response.phoneNum);
+          $("#modal-departure").html(response.orderinfo.carpoolOriginPlace);
+          $("#modal-destination").html(response.orderinfo.carpoolDestination);
+          $("#modal-time").html(response.orderinfo.carpoolDepartureTime);
+          $("#modal-vacancy").html(response.orderinfo.carpoolNumberOfStudent);
+          $("#modal-cartype").html(response.orderinfo.carpoolCarType);
+          $("#modal-comment").html(response.orderinfo.carpoolSpecialRequirement);
+          $("#modal-person").html(response.orderinfo.carpoolSubscriber);
+          if(response.cancelButton==false){
+            $("#cancelBtn").hide();
+          } else {
+            $("#cancelBtn").show();
+          }
+//          TODO: 返回数据加入contact
+//          $("#modal-contact").html(response.car)
+//          console.log(response);
+        },
+        error: function (xhr, status) {
+          console.log("error");
+        },
+        complete: function (xhr, status) {
+          console.log("completed");
+        }
       });
-    });
-  </script>
-  <script type="text/javascript">
-    function showsubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="block";
     }
-    function hidesubmenu(li){
-      var submenu=li.getElementsByTagName("ul")[0];
-      submenu.style.display="none";
+    function cancelOrder() {
+      var orderid = $("#modal-orderid").text();
+      var ownerid = $("#modal-person").text();
+      $.ajax({
+        url: "/camplus/carpool/cancel",
+        data: {
+          orderId: orderid,
+          ownerId: ownerid
+        },
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+          if (response = "success") {
+            $("#cancelBtn").css("data-content", "Your Request Successfully Cancelled");
+            console.log("success");
+          } else {
+            $("#cancelBtn").css("data-content", "Your Request Failed : Permission Denied!");
+            console.log("failed");
+          }
+        },
+        error: function (xhr, status) {
+          console.log(xhr.responseText);
+        },
+        complete: function (xhr, status) {
+          console.log("completed");
+        }
+      });
     }
+    $(document).ready(function(){
+      $('#myModal').on('hidden.bs.modal', function (e) {
+
+      })
+    })
   </script>
-
-  <script type="text/javascript" language="javascript">
-    function showDetail(header){//show detail
-      var contents = [];
-      contents[0] = header.innerHTML;
-      contents[1] = header.parentNode.nextSibling.nextSibling.innerHTML;
-      header = header.parentNode.nextSibling.nextSibling.nextSibling.nextSibling;
-      for(var i = 2 ; i != 8 && header != null ; ++i) {
-        contents[i] = header.innerHTML;
-        header = header.nextSibling.nextSibling;
-      }
-
-      //msgDiv
-      var msgDiv = document.getElementById("msgDiv");
-      msgDiv.style.marginTop = 10 + "px";
-      //bgDiv
-      var bgDiv = document.getElementById("bgDiv");
-      bgDiv.style.width = document.body.offsetwidth + "px";
-      bgDiv.style.height = screen.height + "px";
-      //msgShut
-      var msgShut = document.getElementById("msgShut");
-      msgShut.onclick = function(){
-        bgDiv.style.display = msgDiv.style.display = "none";
-      }
-      //content
-      msgDiv.style.display = bgDiv.style.display = "block";
-      var msgDetail = document.getElementById("msgDetail");
-      msgDetail.innerHTML = "<p style='line-height:50px;font-size:30px;text-align:center'>订单详情</p>" +
-      "<p style='margin-left: 20px' id='requestID'>订单号:"+ contents[0] +"</p>" +
-      "<p style='margin-left: 20px'>出发地:"+ contents[1] +"</p>" +
-      "<p style='margin-left: 20px'>目的地:"+ contents[2] +"</p>" +
-      "<p style='margin-left: 20px'>出发时间:"+ contents[4] +"</p>" +
-      "<p style='margin-left: 20px'>人数:"+ contents[5] +"</p>" +
-      "<p style='margin-left: 20px'>车型:"+ contents[7] +"</p>" +
-      "<p style='margin-left: 20px'>备注:"+ contents[6] +"</p>" +
-      "<p style='margin-left: 20px' id='requestSource'>提交者:"+ contents[3] +"</p>";}
-  </script>
-
 </head>
-
-<%
-  User currentUser = (User)session.getAttribute("userSession");
-  String userName = currentUser.getUserName();
-%>
-
-<div class="headerChild">
-  <div class="log">
-    <div class="quit"><a href="<c:url value="/logout"></c:url>">Logout</a> </div>
-    <p><a href="<c:url value="/user/editInfo"></c:url>">Hello,<%=userName%></a> </p>  </div>
-  <div class="head-bg">
-    <!-- container -->
-    <div class="container">
-      <div class="head-logo">
-        <a href="/camplus/jsp/index.jsp"><img src="/camplus/Images/index/logo1.png" alt="" /></a>
-      </div>
-      <div class="top-nav">
-        <span class="menu"><img src="/camplus/Images/index/menu.png" alt=""></span>
-        <ul class="cl-effect-1">
-          <li><a href="/camplus/jsp/index.jsp">Home</a></li>
-
-          <li><a href="<c:url value="/carpool/select"></c:url> ">Carpool</a></li>
-          <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a> </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)"><a>Gallery</a>
-            <ul class="submenu">
-              <dd><a href="<c:url value="/gallery"></c:url> ">Album</a></dd>
-              <dd><a href="<c:url value="/gallery/hotComment"></c:url> ">Hot</a></dd>
-              <dd><a href="<c:url value="/gallery/mySpace"></c:url> ">MySpace</a></dd>
-            </ul>
-          </li>
-          <li onmouseover="showsubmenu(this)" onmouseout="hidesubmenu(this)"><a>Information</a>
-            <ul class="subMenu">
-              <dd><a href="<c:url value="/information/locationHome"></c:url> ">Map</a></dd>
-              <dd><a href="<c:url value="/restaurant"></c:url> ">Takeout</a></dd>
-              <dd><a href="<c:url value="/information/busTimeHome"></c:url> ">Shuttle</a></dd>
-            </ul>
-          </li>
-        </ul>
-        <!-- script-for-menu -->
-        <script>
-          $( "span.menu" ).click(function() {
-            $( "ul.cl-effect-1" ).slideToggle( 300, function() {
-              // Animation complete.
-            });
-          });
-        </script>
-        <!-- /script-for-menu -->
-      </div>
-      <div class="clearfix"> </div>
+<body>
+<div class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href=""></a>
     </div>
-    <!-- //container -->
+    <div class="collapse navbar-collapse" id="navbar">
+      <!-- TODO: 这里要添加所有标签的URL -->
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
+        <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+        <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<c:url value="/gallery"></c:url>">Album</a></li>
+            <li><a href="<c:url value="/gallery/hotComment"></c:url>">Hot</a></li>
+            <li><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown">Information<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<c:url value="/information/locationHome"></c:url>">Map</a></li>
+            <li><a href="<c:url value="/restaurant"></c:url> ">Take Out</a></li>
+            <li><a href="<c:url value="/information/busTimeHome"></c:url>">Shuttle</a></li>
+          </ul>
+        </li>
+      </ul>
+      <%
+        User currentUser = (User)session.getAttribute("userSession");
+        String userName = currentUser.getUserName();
+      %>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href=""><%=userName%></a></li>
+        <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+      </ul>
+    </div>
   </div>
 </div>
+<div class="container body">
+  <div class="page-header text-center">
+    <h1>Carpool</h1>
+    <p>Find your mates to rent car together.</p>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div>
 
-<div class="booking-info">
-  <h3>Carpool</h3>
-</div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills" role="tablist">
+          <li role="presentation" class="active"><a href="#mate" aria-controls="mate" role="tab" data-toggle="tab">Find Mates</a></li>
+          <li role="presentation"><a href="#order" aria-controls="order" role="tab" data-toggle="tab">Add Order</a></li>
+        </ul>
 
-<div class="booking-form">
-  <!---strat-date-piker---->
-  <link rel="stylesheet" href="css/jquery-ui.css" />
-  <script src="/camplus/JavaScript/index/jquery-ui.js"></script>
-  <script>
-    $(function() {
-      $( "#datepicker,#Cdatepicker" ).datepicker();
-    });
-  </script>
-  <!---/End-date-piker---->
-  <link type="text/css" rel="stylesheet" href="css/JFGrid.css" />
-  <link type="text/css" rel="stylesheet" href="css/JFFormStyle-1.css" />
-  <script type="text/javascript" src="js/JFCore.js"></script>
-  <script type="text/javascript" src="js/JFForms.js"></script>
-  <!-- Set here the key for your domain in order to hide the watermark on the web server -->
-  <%--<script type="text/javascript">--%>
-  <%--(function() {--%>
-  <%--JC.init({--%>
-  <%--domainKey: ''--%>
-  <%--});--%>
-  <%--})();--%>
-  <%--</script>--%>
-  <% %>
-  <form action="/camplus/carpool/select" method="get">
-  <div class="online_reservation">
-    <div class="b_room">
-      <div class="booking_room">
-        <div class="reservation">
-          <ul>
-            <li  class="span1_of_1 left">
-              <h5>From</h5>
-              <div class="book_date">
-                <select name="departure" id="departure" onchange="change_country(this.value)" class="frm-field required">
-                  <c:forEach items="${places}" var="place">
-                    <option value="${place.placeName}">${place.placeName}</option>
-                  </c:forEach>
-                </select>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="mate">
+            <!-- TODO: form的提交 下面注释的一些c标签可以去掉注释使用 -->
+            <form action="" method="get">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>From:</label>
+                    <select name="departure" class="form-control">
+                      <c:forEach items="${places}" var="place">
+                        <option value="${place.placeName}">${place.placeName}</option>
+                      </c:forEach>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>To:</label>
+                    <select name="destination" class="form-control">
+                      <c:forEach items="${places}" var="place">
+                        <option value="${place.placeName}">${place.placeName}</option>
+                      </c:forEach>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Date and Time:</label>
+                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd  HH:ii p" data-link-field="dtp_input1">
+                      <input class="form-control" type="text" value="" readonly name="dateAndTime">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Person(s):</label>
+                    <select name="number" class="form-control">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-success">Find</button>
+                  </div>
+                </div>
               </div>
-            </li>
-            <li  class="span1_of_1 left">
-              <h5>To</h5>
-              <div class="book_date">
-                <select name="destination" id="destination" onchange="change_country(this.value)" class="frm-field required">
-                  <c:forEach items="${places}" var="place">
-                  <option value="${place.placeName}">${place.placeName}</option>
-                  </c:forEach>
-                </select>
+            </form>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="order">
+            <!-- TODO: form的提交 下面注释的一些c标签可以去掉注释使用 -->
+            <form action="" method="get">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>From:</label>
+                    <select name="departure" class="form-control">
+                      <c:forEach items="${places}" var="place">
+                        <option value="${place.placeName}">${place.placeName}</option>
+                      </c:forEach>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>To:</label>
+                    <select name="destination" class="form-control">
+                      <c:forEach items="${places}" var="place">
+                        <option value="${place.placeName}">${place.placeName}</option>
+                      </c:forEach>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Date and Time:</label>
+                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd  HH:ii p" data-link-field="dtp_input1">
+                      <input class="form-control" type="text" value="" readonly name="dateAndTime">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Person(s):</label>
+                    <select name="number" class="form-control">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Car Type:</label>
+                    <input class="form-control" type="text" value="" name="cartype">
+                  </div>
+                  <div class="form-group">
+                    <label>Other Requirements:</label>
+                                            <textarea class="form-control" type="text" value="" name="requirement">
+                                            </textarea>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-success">Add</button>
+                  </div>
+                </div>
               </div>
-            </li>
-            <li  class="span1_of_1 left">
-              <h5>Date</h5>
-              <div class="book_date">
-                  <input class="date" name="datepicker" id="datepicker" type="text" value="06/24/2015" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '06/24/2015';}" required=>
-              </div>
-            </li>
-            <li  class="span1_of_4 left">
-              <h5>Hour</h5>
-              <div class="book_date">
-                <select name="hour" id="hour" onchange="change_country(this.value)" class="frm-field required">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12" selected>12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="15">15</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                </select>
-              </div>
-            </li>
-            <li  class="span1_of_4 left">
-              <h5>Minute</h5>
-              <div class="book_date">
-                <select name="minute" id="minute" onchange="change_country(this.value)" class="frm-field required">
-                  <option value="0">0</option>
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
-                  <option value="25">25</option>
-                  <option value="30" selected>30</option>
-                  <option value="35">35</option>
-                  <option value="40">40</option>
-                  <option value="45">45</option>
-                  <option value="50">50</option>
-                  <option value="55">55</option>
-                </select>
-              </div>
-            </li>
-            <li class="span1_of_1">
-              <h5>Person(s)</h5>
-              <!----------start section_room----------->
-              <div class="section_room">
-                <select name="number" id="number" onchange="change_country(this.value)" class="frm-field required">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
-            </li>
-            <li class="span1_of_3">
-              <div class="date_btn">
-                  <input type="submit" value="查找"style="font-size:18px;font-weight: bold;height: 40px;width:200px;background-color: #FFD700;border-radius: 6px"/>
-              </div>
-            </li>
-            <div class="clearfix"></div>
-          </ul>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <table class="table table-hover table-striped">
+            <thead>
+            <td>Order Number</td>
+            <td>Departure Place</td>
+            <td>Destination</td>
+            <td>Submit Person</td>
+            <td>Departure Time</td>
+            <td>Vacancies</td>
+            <td>Details</td>
+            </thead>
+            <tbody>
+            <c:forEach items="${orders}" var="order">
+              <tr>
+                <td id="orderid">${order.carpoolId}</td>
+                <td>${order.carpoolOriginPlace}</td>
+                <td>${order.carpoolDestination}</td>
+                <td id="ownerid">${order.carpoolSubscriber}</td>
+                <td>${order.carpoolDepartureTime}</td>
+                <td>${order.carpoolNumberOfStudent}</td>
+                <td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
+              </tr>
+            </c:forEach>
+            </tbody>
+          </table>
+          <nav>
+            <!-- TODO: 翻页功能 -->
+            <ul class="pager">
+              <li><a href="#" class="inverse">Head</a></li>
+              <li><a href="#">Previous</a></li>
+              <li><a href="#">Next</a></li>
+              <li><a href="#" class="inverse">Tail</a></li>
+            </ul>
+          </nav>
         </div>
       </div>
-      <div class="clearfix"></div>
+
     </div>
   </div>
-  <!---->
-  </form>
 </div>
 
-
-<table>
-  <thead>
-    <td>订单号码</td>
-    <td>出发地</td>
-    <td>目的地</td>
-    <td>提交者</td>
-    <td>出发时间</td>
-    <td>空缺人数</td>
-  </thead>
-  <tbody>
-  <c:forEach items="${orders}" var="order">
-
-    <tr>
-      <td>
-        <a href="#" onClick="showDetail(this)">${order.carpoolId}</a>
-      </td>
-      <td>${order.carpoolOriginPlace}</td>
-      <td>${order.carpoolDestination}</td>
-      <td>${order.carpoolSubscriber}</td>
-      <td>${order.carpoolDepartureTime}</td>
-      <td>${order.carpoolNumberOfStudent}</td>
-      <td hidden='true'>${order.carpoolSpecialRequirement}</td>
-      <td hidden='true'>${order.carpoolCarType}</td>
-    </tr>
-  </c:forEach>
-</tbody>
-<%
-  if(request.getAttribute("departure")==null||request.getAttribute("destination")==null){
-%>
-</table>
-<div class="container">
-  <div class="page-select">
-    <form action="/camplus/carpool/select" method="get">
-      <input type="submit" name="indexmove" value="head"/>
-    </form>
-    <form action="/camplus/carpool/select" method="get">
-      <input type="submit" name="indexmove" value="prev"/>
-    </form>
-    <form action="/camplus/carpool/select" method="get">
-      <input type="text" name="indexmove" value="${totalpage}"/>
-      <input type="submit" value="Go"/>
-    </form>
-    <form action="/camplus/carpool/select" method="get">
-      <input type="submit" name="indexmove" value="next"/>
-    </form>
-    <form action="/camplus/carpool/select" method="get">
-      <input type="submit" name="indexmove" value="tail"/>
-    </form>
+<hr>
+<footer class="home-footer">
+  <div class="home-footer-text">
+    <p>Address: 4800 Cao An Road, Jiading District, Shanghai</p>
+    <p>email: Fowafolo@gmail.com</p>
+    <p>&copy; 2015-2016  &middot; <a href="home">Camplus</a> &middot; All rights reserved.</p>
   </div>
-</div>
-<%
-  }else{
-%>
-</table>
-<div class="container">
-  <div class="page-select">
-    <form action="/camplus/carpool/select" method="get">
-      <input type="hidden" name="departure" value="${requestScope.departure}"/>
-      <input type="hidden" name="destination" value="${requestScope.destination}"/>
-      <input type="submit" name="indexmove" value="head"/>
-    </form>
-    <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
-      <input type="hidden" name="departure" value="${requestScope.departure}"/>
-      <input type="hidden" name="destination" value="${requestScope.destination}"/>
-      <input type="submit" name="indexmove" value="prev"/>
-    </form>
-    <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
-      <input type="hidden" name="departure" value="${requestScope.departure}"/>
-      <input type="hidden" name="destination" value="${requestScope.destination}"/>
-      <input type="text" name="indexmove" value="${sessionScope.index+1}"/>
-      <input type="submit" value="Go"/>
-    </form>
-    <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
-      <input type="hidden" name="departure" value="${requestScope.departure}"/>
-      <input type="hidden" name="destination" value="${requestScope.destination}"/>
-      <input type="submit" name="indexmove" value="next"/>
-    </form>
-    <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
-      <input type="hidden" name="departure" value="${requestScope.departure}"/>
-      <input type="hidden" name="destination" value="${requestScope.destination}"/>
-      <input type="submit" name="indexmove" value="tail"/>
-    </form>
-  </div>
-</div>
-<%
-  }
-%>
-<form action="/camplus/carpool/new" method="get">
-<div class="online_reservation">
-  <div class="b_room">
-    <div class="booking_room">
-      <div class="reservation">
-        <ul>
-          <li  class="span1_of_1 left">
-            <h5>From</h5>
-            <div class="book_date">
-              <select name="Cdeparture" id="Cdeparture" onchange="change_country(this.value)" class="frm-field required">
-                <c:forEach items="${places}" var="place">
-                  <option value="${place.placeName}">${place.placeName}</option>
-                </c:forEach>
-              </select>
-            </div>
-          </li>
-          <li  class="span1_of_1 left">
-            <h5>To</h5>
-            <div class="book_date">
-              <select name="Cdestination" id="Cdestination" onchange="change_country(this.value)" class="frm-field required">
-                <c:forEach items="${places}" var="place">
-                  <option value="${place.placeName}">${place.placeName}</option>
-                </c:forEach>
-              </select>
-            </div>
-          </li>
-          <li  class="span1_of_1 left">
-            <h5>Date</h5>
-            <div class="book_date">
-                <input class="date" name="Cdate" id="Cdatepicker" type="text" value="06/24/2015" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '06/24/2015';}" required=>
-            </div>
-          </li>
-          <li  class="span1_of_4 left">
-            <h5>Hour</h5>
-            <div class="book_date">
-              <select name="Chour" id="Chour" onchange="change_country(this.value)" class="frm-field required">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12" selected>12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-              </select>
-            </div>
-          </li>
-          <li  class="span1_of_4 left">
-            <h5>Minute</h5>
-            <div class="book_date">
-              <select name="Cminute" id="Cminute" onchange="change_country(this.value)" class="frm-field required">
-                <option value="0">0</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30" selected>30</option>
-                <option value="35">35</option>
-                <option value="40">40</option>
-                <option value="45">45</option>
-                <option value="50">50</option>
-                <option value="55">55</option>
-              </select>
-            </div>
-          </li>
-          <li class="span1_of_1">
-            <h5>Person(s)</h5>
-            <!----------start section_room----------->
-            <div class="section_room">
-              <select name="Cnumber" id="Cnumber" onchange="change_country(this.value)" class="frm-field required">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-            </div>
-          </li>
-          <li class="span1_of_1">
-            <h5>Car Type</h5>
-            <div class="book_date">
-              <input type="text" name="cartype" id="cartype" onchange="change_country(this.value)" class="frm-field required">
-            </div>
-          </li>
-          <li class="span1_of_5">
-            <h5>Other Requirements</h5>
+</footer>
 
-            <div class="book_date">
-              <input type="text" name="requirement" id="requirement" onchange="change_country(this.value)" class="frm-field required">
-            </div>
-          </li>
-          <li class="span1_of_3">
-            <div class="date_btn">
-                <input type="submit" value="添加" style="font-size:18px;font-weight: bold;height: 40px;width:200px;background-color: #FFD700;border-radius: 6px"/>
-            </div>
-          </li>
-          <div class="clearfix"></div>
-        </ul>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">View Order</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table order">
+          <tbody>
+          <tr><td>Order Number: </td><td id="modal-orderid"></td></tr>
+          <tr><td>Departure Place: </td><td id="modal-departure"></td></tr>
+          <tr><td>Destination: </td><td id="modal-destination"></td></tr>
+          <tr><td>Departure Time: </td><td id="modal-time"></td></tr>
+          <tr><td>Number of Vacancies: &nbsp;&nbsp;&nbsp;</td><td id="modal-vacancy"></td></tr>
+          <tr><td>Car Type: </td><td id="modal-cartype"></td></tr>
+          <tr><td>Comment: </td><td id="modal-comment"></td></tr>
+          <tr><td>Submit Person: </td><td id="modal-person"></td></tr>
+          <tr><td>Contact: </td><td id="modal-contact"></td></tr>
+          </tbody>
+        </table>
+        <%--<p>${order.carpoolSubscriber}</p>--%>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- TODO: 加一个判断，如果已登陆用户＝订单发起用户，显示cancel button -->
+        <button type="button" class="btn btn-danger" onclick="cancelOrder()" data-toggle="popover" data-trigger="focus" title="Failed" data-content="" id="cancelBtn">This car is full, cancel</button>
       </div>
     </div>
-    <div class="clearfix"></div>
-  </div>
-</div>
-</form>
-
-<div id="bgDiv"></div>
-<div id="msgDiv" style="background: #f5f5f5;border: thin solid #c5c5c5;border-radius: 6px;">
-  <div id="msgDetail">
-    <p></p>
-  </div>
-  <div style="text-align: center">
-    <form action="/camplus/carpool/cancel" method="get">
-      <input type="hidden" id = "id" name="oid" value = "">
-      <input type="hidden" id = "requestOwner" name="ownerId" value = "">
-      <script>
-        var getRequest = function(){
-          console.log(document.getElementById("requestID").innerHTML);
-          document.getElementById("id").setAttribute("value",document.getElementById("requestID").innerHTML);
-          document.getElementById("requestOwner").setAttribute("value",document.getElementById("requestSource").innerHTML);
-        }
-
-      </script>
-      <input type="submit" id="msgCancel" value="撤销" onclick="getRequest()" style="margin: auto;font-size:18px;font-weight: bold;height: 40px;width:80px;background-color: #FFD700;border-radius: 6px"/>
-      <input type="button" id="msgShut" value="关闭" style="margin: auto;font-size:18px;font-weight: bold;height: 40px;width:80px;background-color: #FFD700;border-radius: 6px">
-    </form>
   </div>
 </div>
 
+<!-- date time picker -->
+<script type="text/javascript" src="../../external/datepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript">
+  $('.form_datetime').datetimepicker({
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+  });
+</script>
 </body>
 </html>

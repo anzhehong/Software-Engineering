@@ -101,6 +101,25 @@
                         </div>
                     </div>
                 </div>
+             <div class="box">
+                 <div class="thumbnail">
+                     <br>
+                     <div class="text-center">
+                         <div class="circle"></div>
+                     </div>
+                     <div class="caption text-center">
+                         <!-- TODO: 填入图片 -->
+                         <a href="#" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImageId}.png"  data-imageid="${var.galleryImageId}"></a>
+                         <h4>
+                             <!-- TODO: 点赞功能 -->
+                             <a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> 254
+                         </h4>
+                         <hr>
+                         <!-- TODO: 填入名字（或学号） -->
+                         <div>Committed by <label>Fowafolo</label></div>
+                     </div>
+                 </div>
+             </div>
             </c:forEach>
             </div>
         </div>
