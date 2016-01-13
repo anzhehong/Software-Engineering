@@ -103,6 +103,11 @@
                         <input type="password"  name="password" class="form-control" id="password" value="" placeholder="need more than 6 characters...">
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                     </div>
+                    <div class="form-group" id="re-pwd-form">
+                        <label>Password:</label>
+                        <input type="password"  name="repassword" class="form-control" id="repassword" value="" placeholder="need more than 6 characters...">
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    </div>
                     <div class="form-group" id="contact-form">
                         <label>Contact Number:</label>
                         <input type="text"  name="contact" class="form-control" id="contact" value="">
