@@ -21,6 +21,7 @@ public class User implements Serializable{
     private int userLevel;
     private int userExperience;
     private String userPassword;
+    private String userAvator;
 
 
     public String getUserId() {
