@@ -46,15 +46,13 @@
           } else {
             $("#cancelBtn").show();
           }
-//          TODO: 返回数据加入contact
-//          $("#modal-contact").html(response.car)
-//          console.log(response);
         },
         error: function (xhr, status) {
           console.log("error");
         },
         complete: function (xhr, status) {
           console.log("completed");
+          $("#myModal").modal('show');
         }
       });
     }
@@ -283,7 +281,7 @@
                 <td id="ownerid">${order.carpoolSubscriber}</td>
                 <td>${order.carpoolDepartureTime}</td>
                 <td>${order.carpoolNumberOfStudent}</td>
-                <td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
+                <td><button class="btn btn-warning btn-sm" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
               </tr>
             </c:forEach>
             </tbody>

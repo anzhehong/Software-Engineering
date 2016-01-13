@@ -143,11 +143,11 @@
                         </nav>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
-    
+
     <hr>
     <footer class="home-footer">
         <div class="home-footer-text">
