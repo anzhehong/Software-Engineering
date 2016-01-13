@@ -66,7 +66,7 @@
                     <!-- TODO: 这里要处理一下session，现在注释的部分是没有登录的 -->
                    <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
                     <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button>-->
-                     <li><a href=""><%=userName%></a></li>
+                     <li><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
                     <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li> 
                 </ul>
             </div>
@@ -80,13 +80,13 @@
             <li data-target="#carousel" data-slide-to="2"></li>
         </ol>
         <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
+            <div class="carousel-inner" role="listbox">
             <div class="item active">
                 <img src="/camplus/images/carousel-1.jpg">
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>This is camplus.</h1>
-                        <p><a class="btn btn-success" href="" role="button">Start your journey</a></p>
+                        <p><a class="btn btn-success" href="#" role="button">Start your journey</a></p>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>More than campus.</h1>
-                        <p><a class="btn btn-success" href="" role="button">Upload pictures</a></p>
+                        <p><a class="btn btn-success" href="<c:url value="/gallery/mySpace"></c:url>" role="button">Upload pictures</a></p>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>Better in campus.</h1>
-                        <p><a class="btn btn-success" href="" role="button">Watch maps!</a></p>
+                        <p><a class="btn btn-success" href="<c:url value="/information/locationHome"></c:url>" role="button">Watch maps!</a></p>
                     </div>
                 </div>
             </div>
@@ -180,7 +180,7 @@
             <p>Address: 4800 Cao An Road, Jiading District, Shanghai</p>
             <p>email: Fowafolo@gmail.com</p>
             <!-- TODO: 添加camplus的url -->
-            <p>&copy; 2015-2016  &middot; <a href="">Camplus</a> &middot; All rights reserved.</p>
+            <p>&copy; 2015-2016  &middot; <a href="#">Camplus</a> &middot; All rights reserved.</p>
         </div>
     </footer>
 </body>
