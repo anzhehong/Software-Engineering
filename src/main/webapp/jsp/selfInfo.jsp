@@ -79,7 +79,7 @@
             <p>You can change your information here.</p>
         </div>
         <!-- TODO: 表单提交 -->
-        <form method="post" action="/camplus/user/editInfo" id="selfInfoChangeForm">
+        <form method="post" action="/camplus/user/editInfoChanged" id="selfInfoChangeForm">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group" id="uid-form">
