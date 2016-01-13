@@ -22,6 +22,7 @@ public class User implements Serializable{
     private int userExperience;
     private String userPassword;
     private String userAvator;
+    private String userMobile;
 
 
     public String getUserId() {
@@ -62,5 +63,21 @@ public class User implements Serializable{
 
     public void setUserExperience(int userExperience) {
         this.userExperience = userExperience;
+    }
+
+    public String getUserAvator() {
+        return userAvator;
+    }
+
+    public void setUserAvator(String userAvator) {
+        this.userAvator = userAvator;
+    }
+
+    public String getUserMobile() {
+        return userMobile;
+    }
+
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
     }
 }

@@ -22,28 +22,64 @@
   <script>
     function getCarpoolDetail(btn) {
       var orderid = $(btn).parent().prevAll("#orderid").text();
+      var ownerid = $(btn).parent().prevAll("#ownerid").text();
       $.ajax({
         url: "/camplus/carpool/detail",
         data: {
-          orderId: orderid
+          orderId: orderid,
+          ownerId: ownerid
         },
         type: "GET",
         dataType: "json",
         success: function(response) {
-          $("#modal-orderid").html(response.carpoolId);
-          $("#modal-departure").html(response.carpoolOriginPlace);
-          $("#modal-destination").html(response.carpoolDestination);
-          $("#modal-time").html(response.carpoolDepartureTime);
-          $("#modal-vacancy").html(response.carpoolNumberOfStudent);
-          $("#modal-cartype").html(response.carpoolCarType);
-          $("#modal-comment").html(response.carpoolSpecialRequirement);
-          $("#modal-person").html(response.carpoolSubscriber);
+          $("#modal-orderid").html(response.orderinfo.carpoolId);
+          $("#modal-contact").html(response.phoneNum);
+//          $("#modal-departure").html(response.carpoolOriginPlace);
+//          $("#modal-destination").html(response.carpoolDestination);
+//          $("#modal-time").html(response.carpoolDepartureTime);
+//          $("#modal-vacancy").html(response.carpoolNumberOfStudent);
+//          $("#modal-cartype").html(response.carpoolCarType);
+//          $("#modal-comment").html(response.carpoolSpecialRequirement);
+//          $("#modal-person").html(response.carpoolSubscriber);
+          if(response.cancelButton==false){
+            $("#cancelBtn").hide();
+          } else {
+            $("#cancelBtn").show();
+          }
 //          TODO: 返回数据加入contact
 //          $("#modal-contact").html(response.car)
 //          console.log(response);
         },
         error: function (xhr, status) {
           console.log("error");
+        },
+        complete: function (xhr, status) {
+          console.log("completed");
+        }
+      });
+    }
+    function cancelOrder() {
+      var orderid = $("#modal-orderid").text();
+      var ownerid = $("#modal-person").text();
+      $.ajax({
+        url: "/camplus/carpool/cancel",
+        data: {
+          orderId: orderid,
+          ownerId: ownerid
+        },
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+          if (response = "success") {
+            $("#cancelBtn").css("data-content", "Your Request Successfully Cancelled");
+            console.log("success");
+          } else {
+            $("#cancelBtn").css("data-content", "Your Request Failed : Permission Denied!");
+            console.log("failed");
+          }
+        },
+        error: function (xhr, status) {
+          console.log(xhr.responseText);
         },
         complete: function (xhr, status) {
           console.log("completed");
@@ -66,33 +102,35 @@
       <a class="navbar-brand" href=""></a>
     </div>
     <div class="collapse navbar-collapse" id="navbar">
+      <!-- TODO: 这里要添加所有标签的URL -->
       <ul class="nav navbar-nav">
-        <li><a href="">Home</a></li>
-        <li class="active"><a href="">Carpool</a></li>
-        <li><a href="">Course</a></li>
+        <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
+        <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+        <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
         <li class="dropdown">
           <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="">Album</a></li>
-            <li><a href="">Hot</a></li>
-            <li><a href="">My space</a></li>
+            <li><a href="<c:url value="/gallery"></c:url>">Album</a></li>
+            <li><a href="<c:url value="/gallery/hotComment"></c:url>">Hot</a></li>
+            <li><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" data-toggle="dropdown">Information<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="">Map</a></li>
-            <li><a href="">Take Out</a></li>
-            <li><a href="">Shuttle</a></li>
+            <li><a href="<c:url value="/information/locationHome"></c:url>">Map</a></li>
+            <li><a href="<c:url value="/restaurant"></c:url> ">Take Out</a></li>
+            <li><a href="<c:url value="/information/busTimeHome"></c:url>">Shuttle</a></li>
           </ul>
         </li>
       </ul>
+      <%
+        User currentUser = (User)session.getAttribute("userSession");
+        String userName = currentUser.getUserName();
+      %>
       <ul class="nav navbar-nav navbar-right">
-        <!-- TODO: deal with session -->
-        <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
-        <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button> -->
-        <li><a href="">Fowafolo An</a></li>
-        <li><a href=""><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+        <li><a href=""><%=userName%></a></li>
+        <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
       </ul>
     </div>
   </div>
@@ -237,7 +275,7 @@
                 <td id="orderid">${order.carpoolId}</td>
                 <td>${order.carpoolOriginPlace}</td>
                 <td>${order.carpoolDestination}</td>
-                <td>${order.carpoolSubscriber}</td>
+                <td id="ownerid">${order.carpoolSubscriber}</td>
                 <td>${order.carpoolDepartureTime}</td>
                 <td>${order.carpoolNumberOfStudent}</td>
                 <td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
@@ -279,10 +317,9 @@
         <h4 class="modal-title" id="myModalLabel">View Order</h4>
       </div>
       <div class="modal-body">
-        <!-- TODO: 填内容 -->
         <table class="table order">
           <tbody>
-          <tr><td>Order Number: </td><td id="modal-orderid">adfsd</td></tr>
+          <tr><td>Order Number: </td><td id="modal-orderid"></td></tr>
           <tr><td>Departure Place: </td><td id="modal-departure"></td></tr>
           <tr><td>Destination: </td><td id="modal-destination"></td></tr>
           <tr><td>Departure Time: </td><td id="modal-time"></td></tr>
@@ -293,11 +330,12 @@
           <tr><td>Contact: </td><td id="modal-contact"></td></tr>
           </tbody>
         </table>
+        <%--<p>${order.carpoolSubscriber}</p>--%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <!-- TODO: 加一个判断，如果已登陆用户＝订单发起用户，显示cancel button -->
-        <button type="button" class="btn btn-primary">This car is full, cancel</button>
+        <button type="button" class="btn btn-danger" onclick="cancelOrder()" data-toggle="popover" data-trigger="focus" title="Failed" data-content="" id="cancelBtn">This car is full, cancel</button>
       </div>
     </div>
   </div>
