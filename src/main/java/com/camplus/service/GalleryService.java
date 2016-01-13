@@ -27,4 +27,7 @@ public interface GalleryService {
     void upload(GalleryImage gi);
 
     void removeById(String mid);
+
+    void likeAPhoto(String imageId);
+    void unLikeAPhoto(String imageId);
 }

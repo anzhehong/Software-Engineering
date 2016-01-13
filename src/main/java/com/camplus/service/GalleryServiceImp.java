@@ -5,7 +5,6 @@ import com.camplus.DAO.GalleryDAO;
 import com.camplus.entity.GalleryComment;
 import com.camplus.entity.GalleryImage;
 import javafx.util.Pair;
-import org.omg.CosNaming.BindingIteratorOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,4 +67,14 @@ public class GalleryServiceImp implements GalleryService {
         galleryDAO.delete(gi);
     }
 
+    public void likeAPhoto(String imageId) {
+        GalleryImage imageToChange = galleryDAO.queryById(imageId);
+        imageToChange.setGalleryImageLoveCount(imageToChange.getGalleryImageLoveCount() + 1);
+    }
+
+    @Override
+    public void unLikeAPhoto(String imageId) {
+        GalleryImage imageToChange = galleryDAO.queryById(imageId);
+        imageToChange.setGalleryImageLoveCount(imageToChange.getGalleryImageLoveCount() - 1);
+    }
 }

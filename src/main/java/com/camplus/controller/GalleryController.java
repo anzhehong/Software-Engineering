@@ -1,6 +1,5 @@
 package com.camplus.controller;
 
-import com.camplus.entity.CarpoolOrder;
 import com.camplus.entity.GalleryComment;
 import com.camplus.entity.GalleryImage;
 import com.camplus.entity.User;
@@ -11,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -280,5 +279,14 @@ public class GalleryController {
             model.addAttribute("givenMessage","Error!!");
             return "Gallery/galleryNotification";
         }
+    }
+
+    @RequestMapping("/likeOrDislike")
+    public @ResponseBody void likeOrDislikeAPhone(String imageId, boolean isLiked)
+    {
+        if (isLiked)
+            service.unLikeAPhoto(imageId);
+        else
+            service.likeAPhoto(imageId);
     }
 }
