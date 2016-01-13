@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @RequestMapping("/editInfo")
-    public String editInfo(HttpSession session, Model model, String uid, String uname, String contact, String password, String repassword) {
+    public String editInfo(HttpSession session, Model model, String uid, String uname, String contact, String password, String repassword, int avatar) {
         User user = (User) session.getAttribute("userSession");
         model.addAttribute("studentnum", user.getUserId());
         if (uname == null) {
