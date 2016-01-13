@@ -2,6 +2,7 @@ package com.camplus.DAO;
 
 import com.camplus.entity.CarpoolOrder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,4 +12,6 @@ public interface CarpoolOrderDAO extends GeneralDAO<CarpoolOrder>{
     public List<CarpoolOrder> querybyDestAndDept(String dest,String dept);
     public void cancel(String orderId);
     public CarpoolOrder querybyId(String id);
+
+    public ArrayList<CarpoolOrder> getAllOrders();
 }

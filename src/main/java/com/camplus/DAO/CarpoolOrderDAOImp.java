@@ -2,6 +2,7 @@ package com.camplus.DAO;
 
 import com.camplus.entity.CarpoolOrder;
 import com.camplus.entity.Course;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,13 @@ public class CarpoolOrderDAOImp extends GeneralDAOImp<CarpoolOrder> implements C
         Query query = super.sessionFactory.getCurrentSession().createQuery(hql);
         query.setString("cN", id);
         return (CarpoolOrder)query.list();
+    }
+
+    public ArrayList<CarpoolOrder> getAllOrders() {
+        String hql = "from CarpoolOrder";
+        Query query = super.sessionFactory.getCurrentSession().createQuery(hql);
+        return (ArrayList<CarpoolOrder>) query.list();
+//        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
     }
 
     public void cancel(String orderId) {

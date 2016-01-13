@@ -34,27 +34,25 @@
         success: function(response) {
           $("#modal-orderid").html(response.orderinfo.carpoolId);
           $("#modal-contact").html(response.phoneNum);
-//          $("#modal-departure").html(response.carpoolOriginPlace);
-//          $("#modal-destination").html(response.carpoolDestination);
-//          $("#modal-time").html(response.carpoolDepartureTime);
-//          $("#modal-vacancy").html(response.carpoolNumberOfStudent);
-//          $("#modal-cartype").html(response.carpoolCarType);
-//          $("#modal-comment").html(response.carpoolSpecialRequirement);
-//          $("#modal-person").html(response.carpoolSubscriber);
+          $("#modal-departure").html(response.orderinfo.carpoolOriginPlace);
+          $("#modal-destination").html(response.orderinfo.carpoolDestination);
+          $("#modal-time").html(response.orderinfo.carpoolDepartureTime);
+          $("#modal-vacancy").html(response.orderinfo.carpoolNumberOfStudent);
+          $("#modal-cartype").html(response.orderinfo.carpoolCarType);
+          $("#modal-comment").html(response.orderinfo.carpoolSpecialRequirement);
+          $("#modal-person").html(response.orderinfo.carpoolSubscriber);
           if(response.cancelButton==false){
             $("#cancelBtn").hide();
           } else {
             $("#cancelBtn").show();
           }
-//          TODO: 返回数据加入contact
-//          $("#modal-contact").html(response.car)
-//          console.log(response);
         },
         error: function (xhr, status) {
           console.log("error");
         },
         complete: function (xhr, status) {
           console.log("completed");
+          $("#myModal").modal('show');
         }
       });
     }
@@ -86,6 +84,11 @@
         }
       });
     }
+    $(document).ready(function(){
+      $('#myModal').on('hidden.bs.modal', function (e) {
+
+      })
+    })
   </script>
 </head>
 <body>
@@ -278,7 +281,7 @@
                 <td id="ownerid">${order.carpoolSubscriber}</td>
                 <td>${order.carpoolDepartureTime}</td>
                 <td>${order.carpoolNumberOfStudent}</td>
-                <td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
+                <td><button class="btn btn-warning btn-sm" id="viewDetail" onclick="getCarpoolDetail(this)">View</button></td>
               </tr>
             </c:forEach>
             </tbody>
