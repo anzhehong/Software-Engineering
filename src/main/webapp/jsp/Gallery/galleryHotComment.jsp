@@ -89,7 +89,7 @@
                         </div>
                         <div class="caption text-center">
                             <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImgId}.png"></a>
+                            <a href="#" data-toggle="modal" data-imageid="${var.galleryImgId}" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImgId}.png"></a>
                             <hr>
                             <!-- TODO: 填入评论 -->
                             <div>${var.galleryCommentContent}</div>
@@ -144,8 +144,8 @@
                 </div>
                 <div class="modal-body">
                     <!-- TODO: 填入图片 -->
-                    <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/carousel-1.jpg"></a>
-                    <h4>
+                    <a href="" data-toggle="modal" data-target="#myModal"><img id="mImg" class="img-responsive"></a>
+
                 </div>
             </div>
         </div>
@@ -162,6 +162,14 @@
                 });
             });
         });
+
+        $('#myModal').on('show.bs.modal', function (event){
+            var button = $(event.relatedTarget)// Button that triggered the modal
+            var recipient = button.data('imageid')
+            var imgpath = '/camplus/images/gallery/s'+recipient+'.png'
+            var modal = $(this)
+            modal.find('#mImg').attr('src',imgpath);
+        })
     </script>
 </body>
 </html>

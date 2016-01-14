@@ -90,7 +90,7 @@
                         </div>
                         <div class="caption text-center">
                             <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImageId}.png"  data-imageid="${var.galleryImageId}"></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" id="imgId" data-imageid="${var.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImageId}.png"  data-imageid="${var.galleryImageId}"></a>
                             <h4>
                                 <!-- TODO: 点赞功能 -->
                                 <a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> 254
@@ -101,25 +101,7 @@
                         </div>
                     </div>
                 </div>
-             <div class="box">
-                 <div class="thumbnail">
-                     <br>
-                     <div class="text-center">
-                         <div class="circle"></div>
-                     </div>
-                     <div class="caption text-center">
-                         <!-- TODO: 填入图片 -->
-                         <a href="#" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImageId}.png"  data-imageid="${var.galleryImageId}"></a>
-                         <h4>
-                             <!-- TODO: 点赞功能 -->
-                             <a href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> 254
-                         </h4>
-                         <hr>
-                         <!-- TODO: 填入名字（或学号） -->
-                         <div>Committed by <label>Fowafolo</label></div>
-                     </div>
-                 </div>
-             </div>
+
             </c:forEach>
             </div>
         </div>
@@ -167,7 +149,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- TODO: 填入图片 -->
-                    <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/${var.galleryImageId}.jpg"></a>
+                    <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" id="mImg"></a>
                     <div class="row">
                         <div class="col-md-6">
                             <h4>
@@ -179,10 +161,9 @@
                             <p class="text-right">Committed by <label>Fowafolo</label></p>
                         </div>
                     </div>
-                    <h4>
                 </div>
                 <div class="modal-footer">
-                    <form action="gallery/comment?imageId=" method="post"> 
+                    <form id="comSumbit"  method="post">
                         <div class="form-group">
                             <textarea class="form-control" placeholder="Your comment here..."></textarea>
                         </div>
@@ -202,10 +183,23 @@
                 $container.masonry({
                     itemSelector : '.box',
                     gutterWidth : 0,
-                    isAnimated: true,
+                    isAnimated: true
                 });
             });
         });
+    </script>
+    <script type="text/javascript">
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)// Button that triggered the modal
+            var recipient = button.data('imageid')
+            // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var imgpath = '/camplus/images/gallery/s'+recipient+'.png'
+            var modal = $(this)
+            modal.find('#mImg').attr('src',imgpath);
+            modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
+        })
     </script>
 </body>
 </html>

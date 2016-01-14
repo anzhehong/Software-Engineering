@@ -83,6 +83,9 @@ public class UserController {
     public String editInfo(HttpSession session, Model model, String uid, String uname, String contact, String password, String repassword, String avatar) {
         User user = (User) session.getAttribute("userSession");
         model.addAttribute("studentnum", user.getUserId());
+
+//
+//
         if (uname == null) {
             model.addAttribute("givenMessage", "请完成下列表格！");
             return "selfInfo";
@@ -111,5 +114,37 @@ public class UserController {
             userService.updateUser(nuser);
             return "index";
         }
+
+
+    }
+
+    @RequestMapping("/editInfoChanged")
+    public String editInfoChanged(HttpSession session, Model model, String uid, String uname, String contact, String password, String repassword, String avatar) {
+        User user = (User) session.getAttribute("userSession");
+        model.addAttribute("studentnum", user.getUserId());
+
+
+        User tempUser = userService.getById(user.getUserId());
+        if (uid != null && uid != "") {
+            tempUser.setUserId(uid);
+        }else tempUser.setUserId(user.getUserId());
+        if (uname != null && uname != "")
+        {
+            tempUser.setUserName(uname);
+        }else tempUser.setUserName(user.getUserName());
+        if (password != null && password != "")
+        {
+            tempUser.setUserPassword(password);
+        }else tempUser.setUserPassword(user.getUserPassword());
+        if (avatar != null && avatar != "")
+        {
+            tempUser.setUserAvator(avatar);
+        }else tempUser.setUserAvator(user.getUserAvator());
+        if (contact != null && contact != "")
+        {
+            tempUser.setUserMobile(contact);
+        }else tempUser.setUserMobile(user.getUserMobile());
+        userService.updateUser(tempUser);
+        return "index";
     }
 }
