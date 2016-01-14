@@ -81,7 +81,7 @@
             <br>
             <div id="masonry" class="container-fluid">
                 <!-- TODO: 一个box为一个单位，动态添加图片和评论 -->
-         <c:forEach var="var" items="${Images}">
+         <c:forEach var="var" items="${Result}">
                 <div class="box">
                     <div class="thumbnail">
                         <br>
@@ -90,14 +90,14 @@
                         </div>
                         <div class="caption text-center">
                             <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.galleryImageLoveCount}" data-imageid="${var.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImageId}.png"  data-imageid="${var.galleryImageId}"></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
                             <h4>
                                 <!-- TODO: 点赞功能 -->
-                                <a class="upThumb" href="javascript:void(0);" ><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> ${var.galleryImageLoveCount}
+                                <a class="upThumb" href="javascript:void(0);" ><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> ${var.image.galleryImageLoveCount}
                             </h4>
                             <hr>
                             <!-- TODO: 填入名字（或学号） -->
-                            <div>Committed by <label>Fowafolo</label></div>
+                            <div>Committed by <label>${var.userName}</label></div>
                         </div>
                     </div>
                 </div>

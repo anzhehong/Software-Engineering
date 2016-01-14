@@ -4,6 +4,7 @@ import com.camplus.entity.GalleryComment;
 import com.camplus.entity.GalleryImage;
 import com.camplus.entity.User;
 import com.camplus.service.GalleryService;
+import com.camplus.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/gallery")
+
+
 public class GalleryController {
     @Autowired
     private GalleryService service;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("")
     public String gallery(Model model,HttpSession session,String indexmove){
@@ -79,18 +84,49 @@ public class GalleryController {
         iter=tmp.iterator();
         int cnt=0;
         Vector<GalleryImage> vec=new Vector<GalleryImage>();
+        Vector<String> userNames = new Vector<String>();
+        ArrayList<Result> results = new ArrayList<Result>();
         while(iter.hasNext()){
             GalleryImage g=iter.next();
             //System.out.println(g.getCarpoolDepartureTime());
             if(cnt>=(nowpage)*itemsperpage&&cnt<(nowpage+1)*itemsperpage){
                 vec.add(g);
+                String userName = userService.getById(g.getGalleryUserId()).getUserName();
+                userNames.add(userName);
+                Result tempResult = new Result();
+                tempResult.setImage(g);
+                tempResult.setUserName(userName);
+                results.add(tempResult);
             }else if(cnt>=(nowpage+1)*itemsperpage)break;
             cnt++;
         }
+
         model.addAttribute("Images",vec);
+        model.addAttribute("Result",results);
 
         return "Gallery/galleryHome";
     }
+    public class Result {
+        public GalleryImage image;
+        public String userName;
+
+        public GalleryImage getImage() {
+            return image;
+        }
+
+        public void setImage(GalleryImage image) {
+            this.image = image;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+    }
+
 
 
     @RequestMapping("/hotComment")
@@ -282,11 +318,38 @@ public class GalleryController {
     }
 
     @RequestMapping("/likeOrDislike")
-    public @ResponseBody void likeOrDislikeAPhone(String imageId, boolean isLiked)
+    public @ResponseBody void likeOrDislikeAPhone(String imageId, HttpSession session)
     {
-        if (isLiked)
-            service.unLikeAPhoto(imageId);
-        else
+//        User user = (User)session.getAttribute("userSession");
+//        String userId = user.getUserId();
+        if (session.getAttribute("galleryLike") != null)
+        {
+//            Map<String, String> likeList = (Map<String, String>) session.getAttribute("galleryLike");
+            ArrayList<String> likeList = (ArrayList) session.getAttribute("galleryLike");
+            for (int i = 0; i< likeList.size(); i++)
+            {
+                if (likeList.get(i).equals(imageId))
+                {
+                    service.unLikeAPhoto(imageId);
+                    likeList.remove(i);
+                    session.setAttribute("galleryLike", likeList);
+                    return;
+                }
+            }
             service.likeAPhoto(imageId);
+            likeList.add(imageId);
+            session.setAttribute("galleryLike",likeList);
+        }else {
+//            Map<String, String> likeList = new HashMap<String, String>();
+            ArrayList<String> likeList = new ArrayList();
+            likeList.add(imageId);
+            session.setAttribute("galleryLike", likeList);
+            service.likeAPhoto(imageId);
+        }
+
+//        if (isLiked)
+//            service.unLikeAPhoto(imageId);
+//        else
+//            service.likeAPhoto(imageId);
     }
 }
