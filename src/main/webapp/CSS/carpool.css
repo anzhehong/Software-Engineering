@@ -37,3 +37,15 @@ p > label {
 .table.order>tbody>tr>td {
 	border-top: none;
 }
+
+.progress-gif {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	top: 50%;
+	left: 50%;
+	z-index: 5;
+	margin-top: -50px;
+	margin-left: -50px;
+	display: none;
+}
