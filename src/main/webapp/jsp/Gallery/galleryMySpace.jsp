@@ -115,9 +115,10 @@
                                     <!-- TODO: 删除图片 -->
                                     <form action="/camplus/gallery/mySpace" type="get" class = 'delForm'>
                                     <div class="text-center">
-                                    <input type="hidden" name="imageid" value="${image.galleryImageId}"/>
+                                    <input type="hidden" name="imageid" value="${   image.galleryImageId}"/>
                                     <input type="submit" class="btn btn-danger btn-sm" value="Delete"/>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
