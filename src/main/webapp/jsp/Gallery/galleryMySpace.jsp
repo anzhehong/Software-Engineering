@@ -163,7 +163,6 @@
                 <div class="modal-body">
                     <!-- TODO: 填入图片 -->
                     <a href="" data-toggle="modal" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
-                    <h4>
                 </div>
             </div>
         </div>
@@ -176,7 +175,7 @@
                 $container.masonry({
                     itemSelector : '.box',
                     gutterWidth : 0,
-                    isAnimated: true,
+                    isAnimated: true
                 });
             });
         });
