@@ -23,6 +23,7 @@
     function getCarpoolDetail(btn) {
       var orderid = $(btn).parent().prevAll("#orderid").text();
       var ownerid = $(btn).parent().prevAll("#ownerid").text();
+      $(".progress-gif").css("display", "block");
       $.ajax({
         url: "/camplus/carpool/detail",
         data: {
@@ -53,6 +54,7 @@
         complete: function (xhr, status) {
           console.log("completed");
           $("#myModal").modal('show');
+          $(".progress-gif").css("display", "none");
         }
       });
     }
@@ -340,6 +342,15 @@
         <!-- TODO: 加一个判断，如果已登陆用户＝订单发起用户，显示cancel button -->
         <button type="button" class="btn btn-danger" onclick="cancelOrder()" data-toggle="popover" data-trigger="focus" title="Failed" data-content="" id="cancelBtn">This car is full, cancel</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-gif">
+  <div class="panel panel-default">
+    <div class="panel-body text-center">
+      <img src="/images/loginAndRegister/progress.gif">
+      <h5>Loading...</h5>
     </div>
   </div>
 </div>
