@@ -49,6 +49,10 @@ public class GalleryServiceImp implements GalleryService {
         return galleryCommentDAO.queryAll();
     }
 
+    public List<GalleryComment> getAllCommentsByImageId(String imageId) {
+        return galleryCommentDAO.getAllbyGID(imageId);
+    }
+
     public List<GalleryImage> getImagesByUID(String uid) {
         return galleryDAO.getImageByUID(uid);
     }

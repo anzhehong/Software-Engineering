@@ -23,6 +23,8 @@ public interface GalleryService {
 
     List<GalleryComment> getAllComment();
 
+    List<GalleryComment> getAllCommentsByImageId(String imageId);
+
     List<GalleryImage> getImagesByUID(String uid);
     void upload(GalleryImage gi);
 

@@ -130,62 +130,98 @@ public class GalleryController {
 
 
     @RequestMapping("/hotComment")
-    String hotComment(Model model,HttpSession session,String indexmove){
-        List<GalleryComment> tmp=service.getAllComment();
-        int itemsperpage=16;
-        int totalpage=tmp.size();
-        if(indexmove==null)indexmove="0";
-        if(indexmove.equals("head")){
-            session.setAttribute("index",new Integer(0));
-        }else if(indexmove.equals("tail")){
-            session.setAttribute("index",new Integer(totalpage/itemsperpage));
-        }else if(indexmove.equals("prev")){
-            Integer nowpage=(Integer)session.getAttribute("index");
-            if(nowpage==null){
-                session.setAttribute("index",new Integer(0));
-            }else{
-                if((nowpage)<0){
-                    ///Doing Nothing
-                }else{
-                    if(nowpage<=0)nowpage=1;
-                    session.setAttribute("index",new Integer(nowpage-1));
-                }
-            }
-        }else if(indexmove.equals("next")){
-            Integer nowpage=(Integer)session.getAttribute("index");
-            if(nowpage==null){
-                session.setAttribute("index",new Integer(0));
-            }else{
-                if((nowpage+1)>totalpage/itemsperpage){
-                    ///Doing Nothing
-                }else{
-                    session.setAttribute("index",new Integer(nowpage+1));
-                }
-            }
-        }else{
-            Integer targetpage=Integer.parseInt(indexmove)-1;
-            if(targetpage>=1&&targetpage<=totalpage/itemsperpage){
-                session.setAttribute("index",targetpage);
-            }else{
-                session.setAttribute("index",new Integer(0));
-            }
+    String hotComment(Model model,HttpSession session,String indexmove, String imageId){
+//        List<GalleryComment> tmp=service.getAllComment();
+//        int itemsperpage=16;
+//        int totalpage=tmp.size();
+//        if(indexmove==null)indexmove="0";
+//        if(indexmove.equals("head")){
+//            session.setAttribute("index",new Integer(0));
+//        }else if(indexmove.equals("tail")){
+//            session.setAttribute("index",new Integer(totalpage/itemsperpage));
+//        }else if(indexmove.equals("prev")){
+//            Integer nowpage=(Integer)session.getAttribute("index");
+//            if(nowpage==null){
+//                session.setAttribute("index",new Integer(0));
+//            }else{
+//                if((nowpage)<0){
+//                    ///Doing Nothing
+//                }else{
+//                    if(nowpage<=0)nowpage=1;
+//                    session.setAttribute("index",new Integer(nowpage-1));
+//                }
+//            }
+//        }else if(indexmove.equals("next")){
+//            Integer nowpage=(Integer)session.getAttribute("index");
+//            if(nowpage==null){
+//                session.setAttribute("index",new Integer(0));
+//            }else{
+//                if((nowpage+1)>totalpage/itemsperpage){
+//                    ///Doing Nothing
+//                }else{
+//                    session.setAttribute("index",new Integer(nowpage+1));
+//                }
+//            }
+//        }else{
+//            Integer targetpage=Integer.parseInt(indexmove)-1;
+//            if(targetpage>=1&&targetpage<=totalpage/itemsperpage){
+//                session.setAttribute("index",targetpage);
+//            }else{
+//                session.setAttribute("index",new Integer(0));
+//            }
+//        }
+//        ///Page Counting
+//        Integer nowpage=(Integer)session.getAttribute("index");
+//        Iterator<GalleryComment> iter;
+//        iter=tmp.iterator();
+//        int cnt=0;
+//        Vector<GalleryComment> vec=new Vector<GalleryComment>();
+//        while(iter.hasNext()){
+//            GalleryComment g=iter.next();
+//            //System.out.println(g.getCarpoolDepartureTime());
+//            if(cnt>=(nowpage)*itemsperpage&&cnt<(nowpage+1)*itemsperpage){
+//                vec.add(g);
+//            }else if(cnt>=(nowpage+1)*itemsperpage)break;
+//            cnt++;
+//        }
+//        model.addAttribute("comments",vec);
+
+
+
+        ArrayList<GalleryImage> images = (ArrayList<GalleryImage>) service.queryAll();
+        ArrayList<HotResult> hotResults = new ArrayList<HotResult>();
+        for (int i = 0; i < images.size(); i++)
+        {
+            List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(imageId);
+            HotResult hotResult = new HotResult();
+            hotResult.setImage(images.get(i));
+            hotResult.setGalleryComments(tempCommentList);
+            hotResults.add(hotResult);
         }
-        ///Page Counting
-        Integer nowpage=(Integer)session.getAttribute("index");
-        Iterator<GalleryComment> iter;
-        iter=tmp.iterator();
-        int cnt=0;
-        Vector<GalleryComment> vec=new Vector<GalleryComment>();
-        while(iter.hasNext()){
-            GalleryComment g=iter.next();
-            //System.out.println(g.getCarpoolDepartureTime());
-            if(cnt>=(nowpage)*itemsperpage&&cnt<(nowpage+1)*itemsperpage){
-                vec.add(g);
-            }else if(cnt>=(nowpage+1)*itemsperpage)break;
-            cnt++;
-        }
-        model.addAttribute("comments",vec);
+        model.addAttribute("Result",hotResults);
+
+
         return "Gallery/galleryHotComment";
+    }
+    public class HotResult{
+        private GalleryImage image;
+        private List<GalleryComment> galleryComments;
+
+        public GalleryImage getImage() {
+            return image;
+        }
+
+        public void setImage(GalleryImage image) {
+            this.image = image;
+        }
+
+        public List<GalleryComment> getGalleryComments() {
+            return galleryComments;
+        }
+
+        public void setGalleryComments(List<GalleryComment> galleryComments) {
+            this.galleryComments = galleryComments;
+        }
     }
 
     @RequestMapping("/comment")
@@ -320,11 +356,8 @@ public class GalleryController {
     @RequestMapping("/likeOrDislike")
     public @ResponseBody void likeOrDislikeAPhone(String imageId, HttpSession session)
     {
-//        User user = (User)session.getAttribute("userSession");
-//        String userId = user.getUserId();
         if (session.getAttribute("galleryLike") != null)
         {
-//            Map<String, String> likeList = (Map<String, String>) session.getAttribute("galleryLike");
             ArrayList<String> likeList = (ArrayList) session.getAttribute("galleryLike");
             for (int i = 0; i< likeList.size(); i++)
             {
@@ -340,16 +373,10 @@ public class GalleryController {
             likeList.add(imageId);
             session.setAttribute("galleryLike",likeList);
         }else {
-//            Map<String, String> likeList = new HashMap<String, String>();
             ArrayList<String> likeList = new ArrayList();
             likeList.add(imageId);
             session.setAttribute("galleryLike", likeList);
             service.likeAPhoto(imageId);
         }
-
-//        if (isLiked)
-//            service.unLikeAPhoto(imageId);
-//        else
-//            service.likeAPhoto(imageId);
     }
 }
