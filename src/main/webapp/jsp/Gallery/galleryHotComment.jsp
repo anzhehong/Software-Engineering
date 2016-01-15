@@ -73,55 +73,24 @@
     </div>
     <div class="container body">
         <div class="page-header text-center">
-            <h1>Hot Comments</h1>
-            <p>See the hot comments about the pictures.</p>
+            <h1>Hot Pictures</h1>
+            <p>See the comments of hot pictures.</p>
         </div>
         <div class="center">
             <br>
             <div id="masonry" class="container-fluid">
                 <!-- TODO: 一个box为一个单位，动态添加图片和评论 -->
-                <c:forEach items="${comments}" var="var">
+                <c:forEach items="${images}" var="image">
                 <div class="box">
                     <div class="thumbnail">
-                        <br>
-                        <div class="text-center">
-                            <div class="circle"></div>
-                        </div>
                         <div class="caption text-center">
-                            <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-imageid="${var.galleryImgId}" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImgId}.png"></a>
-                            <hr>
-                            <!-- TODO: 填入评论 -->
-                            <div>${var.galleryCommentContent}</div>
+                            <a href="javascript:void(0)"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-imageid="${image.galleryImageId}" onclick="getCommentDetail(this)">View Comments</button>
                         </div>
                     </div>
                 </div>
                 </c:forEach>
             </div>
-        </div>
-        <div>
-            <nav>
-                <!-- TODO: 翻页功能 -->
-                <ul class="pager">
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="head"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="prev"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
-      <input type="submit" value="Go"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="next"/>
-    </form></li>
-    <li>
-    <form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="tail"/>
-    </form></li>
-                </ul>
-            </nav>
         </div>
     </div>
     
@@ -143,19 +112,16 @@
                    <h4 class="modal-title" id="myModalLabel"><div class="text-center">View Comments</div></h4>
                </div>
                <div class="modal-body">
-                   <!-- TODO: 循环填内容 -->
-                   <div class="row">
-                       <div class="col-md-1">
-                           <img src="../../images/avatar/1.jpg" class="img-responsive img-circle">
-                       </div>
-                       <div class="col-md-11">
-                           <h5>Fowafolo:</h5>
-                           <p>dsflkajsdlkfjlsajdkdsklksjflkjasdljflkjsdkljfljsldkjlkfjslkdjflksjdlfkjsdlfjlsjdf</p>
-                           <p class="text-right">2015-01-01 23:29</p>
-                       </div>
-                   </div>
-                   <hr>
                </div>
+           </div>
+       </div>
+   </div>
+
+   <div class="progress-gif">
+       <div class="panel panel-default">
+           <div class="panel-body text-center">
+               <img src="/images/loginAndRegister/progress.gif">
+               <h5>Loading...</h5>
            </div>
        </div>
    </div>
@@ -180,5 +146,42 @@
 //            modal.find('#mImg').attr('src',imgpath);
 //        })
     </script>
+<script>
+    function getCommentDetail(btn) {
+        var imageId = $(btn).data('imageid');
+        $(".progress-gif").css("display", "block");
+        $.ajax({
+            url: "/camplus/gallery/hotCommentDetail",
+            data: {
+                imageId: imageId
+            },
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                var array = response;
+                for(var i=0; i<array.length; i++)
+                {
+                    $("#myModal").find(".modal-body").append('<div class="row">'+
+                            '<div class="col-md-1">'+
+                            '<img src="/camplus/images/avatar/'+array[i].userAvator+'.jpg" class="img-responsive img-circle">'+
+                            '</div>'+
+                            '<div class="col-md-11">'+
+                            '<h5>'+array[i].userName+'</h5>'+
+                            '<p>'+array[i].galleryComment.galleryCommentContent+'</p>'+
+                            '</div>'+
+                            '</div>'+'<hr>');
+                }
+            },
+            error: function (xhr, status) {
+                console.log("error");
+            },
+            complete: function (xhr, status) {
+                console.log("completed");
+                $("#myModal").modal('show');
+                $(".progress-gif").css("display", "none");
+            }
+        });
+    }
+</script>
 </body>
 </html>

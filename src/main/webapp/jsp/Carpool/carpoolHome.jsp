@@ -181,7 +181,7 @@
                   </div>
                   <div class="form-group">
                     <label>Date and Time:</label>
-                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd HH:ii p" data-link-field="dtp_input1">
+                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
                       <input class="form-control" type="text" value="" readonly name="datepicker">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                       <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
