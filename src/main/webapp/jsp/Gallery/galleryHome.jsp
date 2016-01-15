@@ -37,8 +37,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
-                    <li class="dropdown","active">
+                    <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
+                    <li class="dropdown active">
                         <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li  class="active"><a href="<c:url value="/gallery"></c:url>">Album</a></li>
@@ -90,10 +90,11 @@
                         </div>
                         <div class="caption text-center">
                             <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
                             <h4>
                                 <!-- TODO: 点赞功能 -->
-                                <a class="upThumb" href="javascript:void(0);" ><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> ${var.image.galleryImageLoveCount}
+                                <a class="upThumb" href="javascript:void(0);" onclick="thumbUp($(this), $(this).parents().children('.imgId').data('imageid'))"><span class="glyphicon glyphicon-heart glyphicon-${var.image.galleryImageId}" aria-hidden="true"></span>
+                                </a> <span id="gallery-img-${var.image.galleryImageId}">${var.image.galleryImageLoveCount}</span>
                             </h4>
                             <hr>
                             <!-- TODO: 填入名字（或学号） -->
@@ -109,22 +110,22 @@
             <nav>
                 <!-- TODO: 翻页功能 -->
                 <ul class="pager">
-                   <form action="/camplus/gallery" method="get">
-                     <input type="submit" name="indexmove" value="head"/>
-                      </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="prev"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
-      <input type="submit" value="Go"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="next"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="tail"/>
-    </form>
+                    <form action="/camplus/gallery" method="get">
+                        <input type="submit" name="indexmove" value="head"/>
+                    </form>
+                    <form action="/camplus/gallery" method="get">
+                      <input type="submit" name="indexmove" value="prev"/>
+                    </form>
+                    <form action="/camplus/gallery" method="get">
+                      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
+                      <input type="submit" value="Go"/>
+                    </form>
+                    <form action="/camplus/gallery" method="get">
+                      <input type="submit" name="indexmove" value="next"/>
+                    </form>
+                    <form action="/camplus/gallery" method="get">
+                      <input type="submit" name="indexmove" value="tail"/>
+                    </form>
                 </ul>
             </nav>
         </div>
@@ -196,25 +197,28 @@
             // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var imgpath = '/camplus/images/gallery/s'+recipient+'.png'
+            var imgpath = '/camplus/images/gallery/'+recipient+'.png'
             var modal = $(this)
             modal.find('.img-responsive').attr('src',imgpath);
             modal.find('.likeCount').text = likeTime
             modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
-
-
         })
     </script>
     <script type="text/javascript">
-        $('.upThumb').click(function(){
-            event.preventDefault();
-            var imageid = $(this).parents().children(".imgId").data("imageid");
+        function thumbUp(btn,imageId){
             var isLiked = false;
-            $.get('/camplus/gallery/likeOrDislike?imageId=' + imageid + '&isLiked='+isLiked,function(data){
-                window.location.reload();
+            $.get('/camplus/gallery/likeOrDislike?imageId=' + imageId,function(data){
+                $(".glyphicon-"+imageId).toggleClass("active");
+                var originalCount = parseInt($("#gallery-img-"+imageId).html());
+                if($(btn).hasClass("active")){
+                    originalCount --;
+                } else {
+                    originalCount ++;
+                }
+                $("#gallery-img-"+imageId).html(originalCount);
             });
             return false;
-        });
+        };
     </script>
 
 </body>

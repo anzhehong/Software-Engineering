@@ -11,14 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Carpool | Camplus</title>
   <!-- bootstrap css -->
-  <link href="${bp}/external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/camplus/external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- bootstrap js -->
-  <script src="${bp}/external/jQuery/jquery-1.11.3.min.js"></script>
-  <script src="${bp}/external/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/camplus/external/jQuery/jquery-1.11.3.min.js"></script>
+  <script src="/camplus/external/bootstrap/js/bootstrap.min.js"></script>
   <!-- custom -->
-  <link rel="stylesheet" type="text/css" href="${bp}/CSS/navbar.css">
-  <link rel="stylesheet" type="text/css" href="${bp}/CSS/carpool.css">
-  <link rel="stylesheet" type="text/css" href="${bp}/external/datepicker/css/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" type="text/css" href="/camplus/CSS/navbar.css">
+  <link rel="stylesheet" type="text/css" href="/camplus/CSS/carpool.css">
+  <link rel="stylesheet" type="text/css" href="/camplus/external/datepicker/css/bootstrap-datetimepicker.min.css">
   <script>
     function getCarpoolDetail(btn) {
       var orderid = $(btn).parent().prevAll("#orderid").text();
@@ -109,8 +109,8 @@
     <div class="collapse navbar-collapse" id="navbar">
       <!-- TODO: 这里要添加所有标签的URL -->
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
-        <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+        <li><a href="/camplus/jsp/index.jsp">Home</a></li>
+        <li class="active"><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
         <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
         <li class="dropdown">
           <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
@@ -159,7 +159,7 @@
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="mate">
             <!-- TODO: form的提交 下面注释的一些c标签可以去掉注释使用 -->
-            <form action="" method="get">
+            <form action="/camplus/carpool/select" method="get">
               <div class="panel panel-default">
                 <div class="panel-body">
                   <div class="form-group">
@@ -180,8 +180,8 @@
                   </div>
                   <div class="form-group">
                     <label>Date and Time:</label>
-                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd  HH:ii p" data-link-field="dtp_input1">
-                      <input class="form-control" type="text" value="" readonly name="dateAndTime">
+                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd HH:ii p" data-link-field="dtp_input1">
+                      <input class="form-control" type="text" value="" readonly name="datepicker">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                       <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
