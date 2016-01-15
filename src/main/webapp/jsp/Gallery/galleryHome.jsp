@@ -163,11 +163,11 @@
                 <div class="modal-footer">
                     <form id="comSumbit"  method="post">
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Your comment here..."></textarea>
+                            <textarea class="form-control" name="message" placeholder="Your comment here..."></textarea>
                         </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <!-- TODO: 提交评论 -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -187,6 +187,7 @@
         });
     </script>
     <script type="text/javascript">
+        var action = 'gallery/comment?imageId=';
         $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)// Button that triggered the modal
             var recipient = button.data('imageid')
@@ -198,10 +199,28 @@
             var modal = $(this)
             modal.find('.img-responsive').attr('src',imgpath);
             modal.find('.likeCount').text = likeTime
-            modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
-
-
+            action = action+recipient;
+          //  modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
         })
+
+        $('#comment').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:action,
+                data:$('#comSumbit').serialize(),
+                async: false,
+                error: function(request) {
+
+                    window.location.reload();
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
+            return false;
+        });
     </script>
     <script type="text/javascript">
         $('.upThumb').click(function(){

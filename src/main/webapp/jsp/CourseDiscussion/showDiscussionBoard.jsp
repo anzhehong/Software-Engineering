@@ -152,20 +152,22 @@
             <br>
             <div id="masonry" class="container-fluid">
                 <!-- TODO: 一个box为一个单位，动态添加评论 -->
-                <c:forEach items="${message}" var="message">
+                <c:forEach items="${result}" var="result">
                 <div class="box">
                     <div class="thumbnail">
                         <br>
                         <div class="text-center">
-                            <div class="circle"></div>
+                            <div class="circle">
+                                <img class="img-circle" src="/camplus/images/avatar/${result.messageGiverImageId}.jpg" width="120" height="120" id="avatar-img">
+                            </div>
                         </div>
                         <div class="caption">
-                            <h3 class="text-center"> ${message.courseMessTitle}</h3>
+                            <h3 class="text-center"> ${result.courseMessage.courseMessTitle}</h3>
                             <hr>
-                            <p>${message.courseMessContent}</p>
+                            <p>${result.courseMessage.courseMessContent}</p>
                             <hr>
-                            <p class="text-right">Committed by <label>${message.courseMessGiverId}</label></p>
-                            <p class="text-right">${message.courseMessGiverTime} </p>
+                            <p class="text-right">Committed by <label>${result.courseMessage.courseMessGiverId}</label></p>
+                            <p class="text-right">${result.courseMessage.courseMessGiverTime} </p>
                         </div>
                     </div>
                 </div>
@@ -197,20 +199,6 @@
         });
     </script>
     <script type="text/javascript">
-        function getPicByRandom(){
-            var picIndex = Math.floor(Math.random()*8+1);
-            return picIndex;
-        }
-        $(document).ready(function(){
-            $(".circle").each(function(){
-                var index = getPicByRandom();
-                $(this).css('background-image', 'url("/camplus/images/avatar/' + index + '.jpg")');
-            })
-        })
-    </script>
-    <script type="text/javascript">
-
-
     $('#msgSumbit').click(function (event) {
         event.preventDefault();
         $.ajax({
@@ -220,6 +208,7 @@
                 data:$('#commentFrom').serialize(),
                 async: false,
                 error: function(request) {
+
                    window.location.reload();
                 },
                 success: function(data) {
