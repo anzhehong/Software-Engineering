@@ -1,5 +1,6 @@
 package com.camplus.controller;
 
+import com.camplus.entity.JavaMD5Util;
 import com.camplus.entity.MailMessage;
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
@@ -29,7 +30,7 @@ private UserService userService;
 
     @RequestMapping("index")
     public String home(String userId,String userPassword,Model user,HttpSession session){
-        int flag = userService.checkIdentity(userId,userPassword);
+        int flag = userService.checkIdentity(userId, JavaMD5Util.MD5(userPassword));
         System.out.println(flag);
         if (flag==0){
             user.addAttribute("message","用户名不存在！");
@@ -85,7 +86,7 @@ private UserService userService;
     public String registerReturn(String userName,String userId,String userPassword,Model userRegister){
         User user = new User();
         user.setUserName(userName);
-        user.setUserPassword(userPassword);
+        user.setUserPassword(JavaMD5Util.MD5(userPassword));
         user.setUserId(userId);
         user.setUserExperience(0);
         user.setUserLevel(1);
@@ -118,21 +119,22 @@ private UserService userService;
     }
 
     @RequestMapping("/sendMail")
-    public String sendMail(String messageToSend) throws UnsupportedEncodingException {
+    public String sendMail(String messageToSend, HttpSession session) throws UnsupportedEncodingException {
+        System.out.println(messageToSend);
         MailMessage message = new MailMessage();
         message.setTo("anzhehong@126.com");
         message.setFrom("anzhehong@126.com");
-        String subject = "Camplus用户来信";
+        User user = (User) session.getAttribute("userSession");
+        String userName = userService.getById(user.getUserId()).getUserName();
+
+        String subject = "Camplus用户'" +userName + "'的来信";
         message.setSubject(subject);
         message.setUser("anzhehong");
-        String s = new String(messageToSend.getBytes("GBK"), "ISO8859-1");
+        String s = new String(messageToSend.getBytes(),"utf-8");
         message.setContent(messageToSend);
         message.setDatato("anzhehong@126.com");
         message.setDatafrom("anzhehong@qq.com");
         message.setPassword("AzhSr19940402");
-
-        System.out.println(s);
-        System.out.println(messageToSend);
 
 
         SendMail send = SendMailImp.getInstance(SendMailImp.WANGYI126).setMessage(message);

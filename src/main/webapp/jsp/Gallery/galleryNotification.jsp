@@ -13,7 +13,7 @@
   <title>Dear Customer</title>
   <script language="JavaScript">
     function jump(){
-      setTimeout(go,3000);
+      setTimeout(go,1000);
     }
     function go(){
       window.location.href="/camplus/gallery";

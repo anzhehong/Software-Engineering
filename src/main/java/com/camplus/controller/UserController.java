@@ -1,5 +1,6 @@
 package com.camplus.controller;
 
+import com.camplus.entity.JavaMD5Util;
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
 import org.hibernate.Session;
@@ -47,7 +48,7 @@ public class UserController {
     public boolean checkUserPassword(String userId, String userPassword) {
         User user = userService.getById(userId);
         System.out.println(user);
-        if (user.getUserPassword().equals(userPassword)) {
+        if (user.getUserPassword().equals(JavaMD5Util.MD5(userPassword))) {
             return true;
         } else {
             return false;
@@ -106,7 +107,7 @@ public class UserController {
             User nuser = new User();
             nuser.setUserId(uid);
             nuser.setUserName(uname);
-            nuser.setUserPassword(password);
+            nuser.setUserPassword(JavaMD5Util.MD5(password));
             nuser.setUserExperience(0);
             nuser.setUserLevel(0);
 //            String avatorStr = String.valueOf(avatar);
@@ -137,7 +138,7 @@ public class UserController {
         }else tempUser.setUserName(user.getUserName());
         if (password != null && password != "")
         {
-            tempUser.setUserPassword(password);
+            tempUser.setUserPassword(JavaMD5Util.MD5(password));
         }else tempUser.setUserPassword(user.getUserPassword());
         if (avatar != null && avatar != "")
         {

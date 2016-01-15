@@ -85,6 +85,7 @@
                     <div class="thumbnail">
                         <div class="caption text-center">
                             <a href="javascript:void(0)"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
+                            <hr>
                             <button class="btn btn-success btn-sm" data-toggle="modal" data-imageid="${image.galleryImageId}" onclick="getCommentDetail(this)">View Comments</button>
                         </div>
                     </div>
@@ -120,7 +121,7 @@
    <div class="progress-gif">
        <div class="panel panel-default">
            <div class="panel-body text-center">
-               <img src="/images/loginAndRegister/progress.gif">
+               <img src="/camplus/images/loginAndRegister/progress.gif">
                <h5>Loading...</h5>
            </div>
        </div>

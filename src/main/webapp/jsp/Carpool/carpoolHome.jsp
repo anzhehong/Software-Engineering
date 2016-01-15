@@ -135,7 +135,7 @@
         String userName = currentUser.getUserName();
       %>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href=""><%=userName%></a></li>
+        <li><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
         <li><a href="<c:url value="/logout"></c:url>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
       </ul>
     </div>
@@ -247,8 +247,7 @@
                   </div>
                   <div class="form-group">
                     <label>Other Requirements:</label>
-                                            <textarea class="form-control" type="text" value="" name="requirement">
-                                            </textarea>
+                    <textarea class="form-control" type="text" value="" name="requirement"></textarea>
                   </div>
                   <div class="text-center">
                     <button class="btn btn-success" id="sendOrder">Add</button>

@@ -90,7 +90,7 @@
                         </div>
                         <div class="caption text-center">
                             <!-- TODO: 填入图片 -->
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
+                            <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-whatever="${var.userName}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"></a>
                             <h4>
                                 <!-- TODO: 点赞功能 -->
                                 <a class="upThumb" href="javascript:void(0);" onclick="thumbUp($(this), $(this).parents().children('.imgId').data('imageid'))"><span class="glyphicon glyphicon-heart glyphicon-${var.image.galleryImageId}" aria-hidden="true"></span></a>
@@ -148,13 +148,10 @@
                     <a href="" class="likeCount" data-toggle="modal" data-target="#myModal"><img class="img-responsive"></a>
                     <div class="row">
                         <div class="col-md-6">
-                            <h4>
-                                <!-- TODO: 点赞功能 -->
-                                <a class="upThumb" href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
-                            </h4>
+
                         </div>
                         <div class="col-md-6">
-                            <p class="text-right">Committed by <label>Fowafolo</label></p>
+                            <p class="text-right">Committed by <label class="nameLabel">Fowafolo</label></p>
                         </div>
                     </div>
                 </div>
@@ -189,14 +186,14 @@
         $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)// Button that triggered the modal
             var recipient = button.data('imageid')
-            var likeTime = button.data('likeTime')
+            var name = button.data('whatever');
             // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var imgpath = '/camplus/images/gallery/'+recipient+'.png'
+            var imgpath = '/camplus/images/gallery/'+recipient+'.jpg'
             var modal = $(this)
             modal.find('.img-responsive').attr('src',imgpath);
-            modal.find('.likeCount').text = likeTime
+            $('.nameLabel').html(name);
             modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
             action = action+recipient;
         })
