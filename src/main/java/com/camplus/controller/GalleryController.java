@@ -130,7 +130,7 @@ public class GalleryController {
 
 
     @RequestMapping("/hotComment")
-    String hotComment(Model model,HttpSession session,String indexmove, String imageId){
+    String hotComment(Model model){
 //        List<GalleryComment> tmp=service.getAllComment();
 //        int itemsperpage=16;
 //        int totalpage=tmp.size();
@@ -190,10 +190,18 @@ public class GalleryController {
 
         ArrayList<GalleryImage> images = (ArrayList<GalleryImage>) service.queryAll();
         ArrayList<HotResult> hotResults = new ArrayList<HotResult>();
+        //TODO: sort by like count
+        Collections.sort(images, new Comparator<GalleryImage>() {
+            @Override
+            public int compare(GalleryImage o1, GalleryImage o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
         for (int i = 0; i < images.size(); i++)
         {
-            List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(imageId);
-            String userName = userService.getById(imageId).getUserName();
+            List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(images.get(i).getGalleryImageId());
+            String userName = userService.getById(images.get(i).getGalleryImageId()).getUserName();
             HotResult hotResult = new HotResult();
             hotResult.setImage(images.get(i));
             hotResult.setUserName(userName);
@@ -201,14 +209,43 @@ public class GalleryController {
             hotResults.add(hotResult);
         }
         model.addAttribute("Result",hotResults);
+        model.addAttribute("Images",images);
 
 
         return "Gallery/galleryHotComment";
     }
+    @RequestMapping("/hotCommentDetail")
+    @ResponseBody
+    public void getCommentsByImageId(String imageId, Model model)
+    {
+        GalleryImage thisImage = service.getImageById(imageId);
+        List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(imageId);
+        String userId = thisImage.getGalleryUserId();
+        User user = userService.getById(userId);
+        String userAvator = user.getUserAvator();
+        String userName = user.getUserName();
+        HotResult result = new HotResult();
+        result.setUserName(userName);
+        result.setUserAvator(userAvator);
+        result.setGalleryComments(tempCommentList);
+        model.addAttribute("result",result);
+    }
+
+
+
     public class HotResult{
         private GalleryImage image;
         private List<GalleryComment> galleryComments;
         private String userName;
+        private String userAvator;
+
+        public String getUserAvator() {
+            return userAvator;
+        }
+
+        public void setUserAvator(String userAvator) {
+            this.userAvator = userAvator;
+        }
 
         public String getUserName() {
             return userName;
