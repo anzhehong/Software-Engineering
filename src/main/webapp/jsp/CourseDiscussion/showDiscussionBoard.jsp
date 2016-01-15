@@ -58,6 +58,7 @@
           <%
                   User currentUser = (User)session.getAttribute("userSession");
                   String userName = currentUser.getUserName();
+
           %>
 
 

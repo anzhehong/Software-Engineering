@@ -101,7 +101,6 @@
                         </div>
                     </div>
                 </div>
-
             </c:forEach>
             </div>
         </div>
@@ -138,7 +137,6 @@
             <p>&copy; 2015-2016  &middot; <a href="home">Camplus</a> &middot; All rights reserved.</p>
         </div>
     </footer>
-
     <!-- Modal -->
     <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
@@ -216,6 +214,5 @@
             return false;
         });
     </script>
-
 </body>
 </html>
