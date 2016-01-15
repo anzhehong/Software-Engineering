@@ -37,8 +37,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
-                    <li class="dropdown","active">
+                    <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
+                    <li class="dropdown active">
                         <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li  class="active"><a href="<c:url value="/gallery"></c:url>">Album</a></li>
@@ -63,6 +63,7 @@
 
 
                 <ul class="nav navbar-nav navbar-right">
+                    <!-- TODO: 这里要处理一下session，现在注释的部分是没有登录的 -->
                    <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
                     <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button>-->
                      <li><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
@@ -79,6 +80,7 @@
         <div class="center">
             <br>
             <div id="masonry" class="container-fluid">
+                <!-- TODO: 一个box为一个单位，动态添加图片和评论 -->
          <c:forEach var="var" items="${Result}">
                 <div class="box">
                     <div class="thumbnail">
@@ -87,11 +89,15 @@
                             <div class="circle"></div>
                         </div>
                         <div class="caption text-center">
-                            <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-whatever="${var.userName}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"></a>
+                            <!-- TODO: 填入图片 -->
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
                             <h4>
-                                <a class="upThumb" href="javascript:void(0);" ><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> ${var.image.galleryImageLoveCount}
+                                <!-- TODO: 点赞功能 -->
+                                <a class="upThumb" href="javascript:void(0);" onclick="thumbUp($(this), $(this).parents().children('.imgId').data('imageid'))"><span class="glyphicon glyphicon-heart glyphicon-${var.image.galleryImageId}" aria-hidden="true"></span></a>
+                                <span id="gallery-img-${var.image.galleryImageId}">${var.image.galleryImageLoveCount}</span>
                             </h4>
                             <hr>
+                            <!-- TODO: 填入名字（或学号） -->
                             <div>Committed by <label>${var.userName}</label></div>
                         </div>
                     </div>
@@ -99,27 +105,25 @@
             </c:forEach>
             </div>
         </div>
-        <div>
-            <nav>
-                <ul class="pager">
-                   <form action="/camplus/gallery" method="get">
-                     <input type="submit" name="indexmove" value="head"/>
-                      </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="prev"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
-      <input type="submit" value="Go"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="next"/>
-    </form>
-    <form action="/camplus/gallery" method="get">
-      <input type="submit" name="indexmove" value="tail"/>
-    </form>
-                </ul>
-            </nav>
+        <div class="text-center">
+            <div class="page-select">
+                <form action="/camplus/gallery" method="get">
+                    <input class="inverse" type="submit" name="indexmove" value="head"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="submit" name="indexmove" value="prev"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="text" name="indexmove" value="${sessionScope.index+1}" />
+                  <input type="submit" value="Go"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="submit" name="indexmove" value="next"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input class="inverse" type="submit" name="indexmove" value="tail"/>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -140,11 +144,17 @@
                     <h4 class="modal-title" id="myModalLabel">View Picture</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- TODO: 填入图片 -->
                     <a href="" class="likeCount" data-toggle="modal" data-target="#myModal"><img class="img-responsive"></a>
                     <div class="row">
-
                         <div class="col-md-6">
-                            <p class="text-right">Committed by <label class="nameLabel">Fowafolo</label></p>
+                            <h4>
+                                <!-- TODO: 点赞功能 -->
+                                <a class="upThumb" href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
+                            </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-right">Committed by <label>Fowafolo</label></p>
                         </div>
                     </div>
                 </div>
@@ -154,6 +164,7 @@
                             <textarea class="form-control" name="message" placeholder="Your comment here..."></textarea>
                         </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!-- TODO: 提交评论 -->
                     <button type="submit" id="comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -178,14 +189,18 @@
         $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)// Button that triggered the modal
             var recipient = button.data('imageid')
-            var name = button.data('whatever');
-            var imgpath = '/camplus/images/gallery/'+recipient+'.jpg';
-            var modal = $(this);
+            var likeTime = button.data('likeTime')
+            // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var imgpath = '/camplus/images/gallery/'+recipient+'.png'
+            var modal = $(this)
             modal.find('.img-responsive').attr('src',imgpath);
-            $('.nameLabel').html(name);
+            modal.find('.likeCount').text = likeTime
+            modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
             action = action+recipient;
         })
-
+          //  modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
         $('#comment').click(function (event) {
             event.preventDefault();
             $.ajax({
@@ -195,7 +210,6 @@
                 data:$('#comSumbit').serialize(),
                 async: false,
                 error: function(request) {
-
                     window.location.reload();
                 },
                 success: function(data) {
@@ -206,15 +220,20 @@
         });
     </script>
     <script type="text/javascript">
-        $('.upThumb').click(function(){
-            event.preventDefault();
-            var imageid = $(this).parents().children(".imgId").data("imageid");
+        function thumbUp(btn,imageId){
             var isLiked = false;
-            $.get('/camplus/gallery/likeOrDislike?imageId=' + imageid + '&isLiked='+isLiked,function(data){
-                window.location.reload();
+            $.get('/camplus/gallery/likeOrDislike?imageId=' + imageId,function(data){
+                $(".glyphicon-"+imageId).toggleClass("active");
+                var originalCount = parseInt($("#gallery-img-"+imageId).html());
+                if($(".glyphicon-"+imageId).hasClass("active")){
+                    originalCount --;
+                } else {
+                    originalCount ++;
+                }
+                $("#gallery-img-"+imageId).html(originalCount);
             });
             return false;
-        });
+        };
     </script>
 </body>
 </html>

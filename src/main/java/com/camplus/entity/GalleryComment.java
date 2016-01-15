@@ -17,6 +17,15 @@ public class GalleryComment {
 
     private String galleryImgId;
     private String galleryCommentContent;
+    private String galleryGiverId;
+
+    public String getGalleryGiverId() {
+        return galleryGiverId;
+    }
+
+    public void setGalleryGiverId(String galleryGiverId) {
+        this.galleryGiverId = galleryGiverId;
+    }
 
     public String getGalleryCommentId() {
         return galleryCommentId;

@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+                    <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -73,55 +73,24 @@
     </div>
     <div class="container body">
         <div class="page-header text-center">
-            <h1>Hot Comments</h1>
-            <p>See the hot comments about the pictures.</p>
+            <h1>Hot Pictures</h1>
+            <p>See the comments of hot pictures.</p>
         </div>
         <div class="center">
             <br>
             <div id="masonry" class="container-fluid">
                 <!-- TODO: 一个box为一个单位，动态添加图片和评论 -->
-                <c:forEach items="${comments}" var="var">
+                <c:forEach items="${images}" var="image">
                 <div class="box">
                     <div class="thumbnail">
-                        <br>
-                        <div class="text-center">
-                            <div class="circle"></div>
-                        </div>
                         <div class="caption text-center">
-                            <!-- TODO: 填入图片 -->
-                            <a href="#" data-toggle="modal" data-imageid="${var.galleryImgId}" data-target="#myModal"><img class="img-responsive" src="/camplus/images/gallery/s${var.galleryImgId}.png"></a>
-                            <hr>
-                            <!-- TODO: 填入评论 -->
-                            <div>${var.galleryCommentContent}</div>
+                            <a href="javascript:void(0)"><img class="img-responsive" src="/camplus/images/gallery/s${image.galleryImageId}.png"></a>
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-imageid="${image.galleryImageId}" onclick="getCommentDetail(this)">View Comments</button>
                         </div>
                     </div>
                 </div>
                 </c:forEach>
             </div>
-        </div>
-        <div>
-            <nav>
-                <!-- TODO: 翻页功能 -->
-                <ul class="pager">
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="head"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="prev"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
-      <input type="submit" value="Go"/>
-    </form></li>
-    <li><form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="next"/>
-    </form></li>
-    <li>
-    <form action="/camplus/gallery/hotComment" method="get">
-      <input type="submit" name="indexmove" value="tail"/>
-    </form></li>
-                </ul>
-            </nav>
         </div>
     </div>
     
@@ -134,22 +103,28 @@
         </div>
     </footer>
 
-    <!-- Modal -->
-    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">View Picture</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- TODO: 填入图片 -->
-                    <a href="" data-toggle="modal" data-target="#myModal"><img id="mImg" class="img-responsive"></a>
+   <!-- Modal -->
+   <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+       <div class="modal-dialog modal-lg" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title" id="myModalLabel"><div class="text-center">View Comments</div></h4>
+               </div>
+               <div class="modal-body">
+               </div>
+           </div>
+       </div>
+   </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+   <div class="progress-gif">
+       <div class="panel panel-default">
+           <div class="panel-body text-center">
+               <img src="/images/loginAndRegister/progress.gif">
+               <h5>Loading...</h5>
+           </div>
+       </div>
+   </div>
     <script type="text/javascript" src="/camplus/external/jQuery/jquery.masonry.min.js"></script> 
     <script type="text/javascript">
         $(function(){
@@ -163,13 +138,50 @@
             });
         });
 
-        $('#myModal').on('show.bs.modal', function (event){
-            var button = $(event.relatedTarget)// Button that triggered the modal
-            var recipient = button.data('imageid')
-            var imgpath = '/camplus/images/gallery/s'+recipient+'.png'
-            var modal = $(this)
-            modal.find('#mImg').attr('src',imgpath);
-        })
+//        $('#myModal').on('show.bs.modal', function (event){
+//            var button = $(event.relatedTarget)// Button that triggered the modal
+//            var recipient = button.data('imageid')
+//            var imgpath = '/camplus/images/gallery/s'+recipient+'.png'
+//            var modal = $(this)
+//            modal.find('#mImg').attr('src',imgpath);
+//        })
     </script>
+<script>
+    function getCommentDetail(btn) {
+        var imageId = $(btn).data('imageid');
+        $(".progress-gif").css("display", "block");
+        $.ajax({
+            url: "/camplus/gallery/hotCommentDetail",
+            data: {
+                imageId: imageId
+            },
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                var array = response;
+                for(var i=0; i<array.length; i++)
+                {
+                    $("#myModal").find(".modal-body").append('<div class="row">'+
+                            '<div class="col-md-1">'+
+                            '<img src="/camplus/images/avatar/'+array[i].userAvator+'.jpg" class="img-responsive img-circle">'+
+                            '</div>'+
+                            '<div class="col-md-11">'+
+                            '<h5>'+array[i].userName+'</h5>'+
+                            '<p>'+array[i].galleryComment.galleryCommentContent+'</p>'+
+                            '</div>'+
+                            '</div>'+'<hr>');
+                }
+            },
+            error: function (xhr, status) {
+                console.log("error");
+            },
+            complete: function (xhr, status) {
+                console.log("completed");
+                $("#myModal").modal('show');
+                $(".progress-gif").css("display", "none");
+            }
+        });
+    }
+</script>
 </body>
 </html>

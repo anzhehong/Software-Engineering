@@ -73,3 +73,47 @@ hr {
     margin-top: 40px;
     margin-bottom: 20px;
 }
+
+/*
+	page css
+*/
+
+.page-select > form {
+    display: inline-block;
+}
+
+.page-select > form > input{
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.page-select > form > input.inverse{
+    display: inline-block;
+    padding: 5px 14px;
+    color: white;
+    background-color: #337ab7;
+    border: none;
+    border-radius: 15px;
+    text-decoration: none;
+}
+
+/*
+    progress
+*/
+
+.progress-gif {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    top: 50%;
+    left: 50%;
+    z-index: 5;
+    margin-top: -50px;
+    margin-left: -50px;
+    display: none;
+}

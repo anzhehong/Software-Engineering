@@ -30,6 +30,10 @@ span.glyphicon-heart {
 	color: #ff7070;
 }
 
+span.glyphicon-heart.active{
+	color: #ea0000;
+}
+
 span.glyphicon-heart:hover {
 	color: #ea0000;
 }

@@ -198,53 +198,59 @@ public class GalleryController {
             }
         });
 
-        for (int i = 0; i < images.size(); i++)
-        {
-            List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(images.get(i).getGalleryImageId());
-            String userName = userService.getById(images.get(i).getGalleryImageId()).getUserName();
-            HotResult hotResult = new HotResult();
-            hotResult.setImage(images.get(i));
-            hotResult.setUserName(userName);
-            hotResult.setGalleryComments(tempCommentList);
-            hotResults.add(hotResult);
-        }
-        model.addAttribute("Result",hotResults);
-        model.addAttribute("Images",images);
+//        for (int i = 0; i < images.size(); i++)
+//        {
+//            List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(images.get(i).getGalleryImageId());
+//            String userName = userService.getById(images.get(i).getGalleryImageId()).getUserName();
+//            HotResult hotResult = new HotResult();
+//            hotResult.setImage(images.get(i));
+//            hotResult.setUserName(userName);
+//            hotResult.setGalleryComments(tempCommentList);
+//            hotResults.add(hotResult);
+//        }
+//        model.addAttribute("Result",hotResults);
+        model.addAttribute("images",images);
 
 
         return "Gallery/galleryHotComment";
     }
+
     @RequestMapping("/hotCommentDetail")
     @ResponseBody
-    public void getCommentsByImageId(String imageId, Model model)
+    public ArrayList<HotResult> getCommentsByImageId(String imageId, Model model)
     {
-        GalleryImage thisImage = service.getImageById(imageId);
         List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(imageId);
-        String userId = thisImage.getGalleryUserId();
-        User user = userService.getById(userId);
-        String userAvator = user.getUserAvator();
-        String userName = user.getUserName();
-        HotResult result = new HotResult();
-        result.setUserName(userName);
-        result.setUserAvator(userAvator);
-        result.setGalleryComments(tempCommentList);
+
+        ArrayList<HotResult> result = new ArrayList<HotResult>();
+        for (int i = 0; i < tempCommentList.size(); i ++)
+        {
+            String userId = tempCommentList.get(i).getGalleryGiverId();
+            User user = userService.getById(userId);
+            String userAvator = user.getUserAvator();
+            String userName = user.getUserName();
+            HotResult hotResult = new HotResult();
+            hotResult.setGalleryComment(tempCommentList.get(i));
+            hotResult.setUserAvator(userAvator);
+            hotResult.setUserName(userName);
+            result.add(hotResult);
+        }
         model.addAttribute("result",result);
+        return result;
     }
 
 
 
     public class HotResult{
-        private GalleryImage image;
-        private List<GalleryComment> galleryComments;
+        private GalleryComment galleryComment;
         private String userName;
         private String userAvator;
 
-        public String getUserAvator() {
-            return userAvator;
+        public GalleryComment getGalleryComment() {
+            return galleryComment;
         }
 
-        public void setUserAvator(String userAvator) {
-            this.userAvator = userAvator;
+        public void setGalleryComment(GalleryComment galleryComment) {
+            this.galleryComment = galleryComment;
         }
 
         public String getUserName() {
@@ -255,20 +261,12 @@ public class GalleryController {
             this.userName = userName;
         }
 
-        public GalleryImage getImage() {
-            return image;
+        public String getUserAvator() {
+            return userAvator;
         }
 
-        public void setImage(GalleryImage image) {
-            this.image = image;
-        }
-
-        public List<GalleryComment> getGalleryComments() {
-            return galleryComments;
-        }
-
-        public void setGalleryComments(List<GalleryComment> galleryComments) {
-            this.galleryComments = galleryComments;
+        public void setUserAvator(String userAvator) {
+            this.userAvator = userAvator;
         }
     }
 
@@ -278,6 +276,7 @@ public class GalleryController {
         gc.setGalleryImgId(imageId);
         gc.setGalleryCommentContent(message);
         gc.setGalleryCommentId(((User) session.getAttribute("userSession")).getUserId() + new Date().getTime());
+        gc.setGalleryGiverId(((User) session.getAttribute("userSession")).getUserId());
         service.addNewComment(gc);
         model.addAttribute("givenMessage","You have successfully commented!");
         //return "Gallery/galleryNotification";
