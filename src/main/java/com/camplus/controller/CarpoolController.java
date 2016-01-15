@@ -8,10 +8,14 @@ import com.camplus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,9 +34,11 @@ public class CarpoolController {
 
 
     @RequestMapping("/select")
-    public String selectMenu(HttpServletRequest request,HttpSession session,Model model,String departure,String destination,String indexmove,String hour,String minute,String datepicker,String number){
+    public String selectMenu(HttpServletRequest request,HttpSession session,Model model,String departure,
+                             String destination,String indexmove,String hour,String minute,String datepicker,String number){
         //carpoolService.getAllbyAll(destination,departure,datepicker,hour,minute,number);
         ArrayList<CommenPlace> cp=(ArrayList<CommenPlace>)carpoolService.getAllPlace();
+        System.out.println(datepicker);
         model.addAttribute("places",cp);
         PriorityQueue<CarpoolOrder> cop;
         boolean bContainer;
@@ -46,6 +52,19 @@ public class CarpoolController {
 //                datepicker = "" + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
 //                number = "" + 0;
 //            }
+
+            if (datepicker.equals(null) || datepicker.equals(""))
+            {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String date = df.format(new Date());
+                datepicker = date;
+            }else {
+                String[] strings = datepicker.split(" ");
+                String[] yearmonthday = strings[0].split("-");
+                String[] hourminute = strings[1].split(":");
+                hour = hourminute[0];
+                minute = hourminute[1];
+            }
             cop=carpoolService.getAllbyAll(destination,departure,datepicker,hour,minute,number);
             request.setAttribute("departure",departure);
             request.setAttribute("destination",destination);
@@ -244,7 +263,8 @@ public class CarpoolController {
     }
 
     @RequestMapping("/new")
-    public String createNew(HttpSession session,String cartype,String Cdestination,String Cdeparture,String requirement,String Cnumber,String Cdate,String Chour,String Cminute,Model model){
+    public void createNew(HttpSession session,String cartype,String Cdestination,String Cdeparture,
+                            String requirement,String Cnumber,String Cdate,Model model){
         ArrayList<CommenPlace> arrcp = (ArrayList<CommenPlace>) carpoolService.getAllPlace();
         model.addAttribute("places", arrcp);
         model.addAttribute("givenMessage","Successfully Commit Your Request!");
@@ -256,16 +276,41 @@ public class CarpoolController {
         co.setCarpoolSubscriber(user.getUserId());
         co.setCarpoolSpecialRequirement(requirement);
         co.setCarpoolNumberOfStudent(Integer.parseInt(Cnumber));
-        Scanner sc=new Scanner(Cdate);
-        sc.useDelimiter("/");
-        int imonth=Integer.parseInt(sc.next().trim());
-        int iday=Integer.parseInt(sc.next().trim());
-        int iyear=Integer.parseInt(sc.next().trim());
-        Date d=new Date(iyear-1900, imonth, iday, Integer.parseInt(Chour), Integer.parseInt(Cminute));
+
+        int imonth=0, iday=0, iyear=0, ihour=0, iminute = 0;
+
+        if (Cdate.equals("") || Cdate.equals(null))
+        {
+            //TODO: 默认一天以后
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String date = df.format(new Date());
+            Cdate = date;
+            String[] strings = Cdate.split(" ");
+            String[] yearmonthday = strings[0].split("-");
+            String[] hourminute = strings[1].split(":");
+            iyear = Integer.parseInt(yearmonthday[0])-1900;
+            imonth = Integer.parseInt(yearmonthday[1]);
+            iday = Integer.parseInt(yearmonthday[2])+1;
+            ihour = Integer.parseInt(hourminute[0]);
+            iminute = Integer.parseInt(hourminute[1]);
+        }else {
+            String[] strings = Cdate.split(" ");
+            String[] yearmonthday = strings[0].split("-");
+            String[] hourminute = strings[1].split(":");
+            iyear = Integer.parseInt(yearmonthday[0])-1900;
+            imonth = Integer.parseInt(yearmonthday[1]);
+            iday = Integer.parseInt(yearmonthday[2]);
+            ihour = Integer.parseInt(hourminute[0]);
+            iminute = Integer.parseInt(hourminute[1]);
+        }
+
+
+//        Date d=new Date(iyear-1900, imonth, iday, Integer.parseInt(Chour), Integer.parseInt(Cminute));
+        Date d=new Date(iyear,imonth,iday,ihour,iminute);
         co.setCarpoolDepartureTime(d);
         co.setCarpoolId(user.getUserId()+new java.util.Date().getTime());
         carpoolService.commit(co);
-        return "/Carpool/carpoolNotification";
+     //   return "/Carpool/carpoolNotification";
     }
 
 }

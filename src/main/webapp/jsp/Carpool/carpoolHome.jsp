@@ -205,12 +205,12 @@
           </div>
           <div role="tabpanel" class="tab-pane" id="order">
             <!-- TODO: form的提交 下面注释的一些c标签可以去掉注释使用 -->
-            <form action="" method="get">
+            <form id="orderForm">
               <div class="panel panel-default">
                 <div class="panel-body">
                   <div class="form-group">
                     <label>From:</label>
-                    <select name="departure" class="form-control">
+                    <select name="Cdeparture" class="form-control">
                       <c:forEach items="${places}" var="place">
                         <option value="${place.placeName}">${place.placeName}</option>
                       </c:forEach>
@@ -218,7 +218,7 @@
                   </div>
                   <div class="form-group">
                     <label>To:</label>
-                    <select name="destination" class="form-control">
+                    <select name="Cdestination" class="form-control">
                       <c:forEach items="${places}" var="place">
                         <option value="${place.placeName}">${place.placeName}</option>
                       </c:forEach>
@@ -226,15 +226,15 @@
                   </div>
                   <div class="form-group">
                     <label>Date and Time:</label>
-                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd  HH:ii p" data-link-field="dtp_input1">
-                      <input class="form-control" type="text" value="" readonly name="dateAndTime">
+                    <div class="input-group date form_datetime" data-date="2015-09-16T05:25:07Z" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                      <input class="form-control" type="text" value="" readonly name="Cdate">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                       <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Person(s):</label>
-                    <select name="number" class="form-control">
+                    <select name="Cnumber" class="form-control">
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
@@ -251,7 +251,7 @@
                                             </textarea>
                   </div>
                   <div class="text-center">
-                    <button class="btn btn-success">Add</button>
+                    <button class="btn btn-success" id="sendOrder">Add</button>
                   </div>
                 </div>
               </div>
@@ -403,14 +403,14 @@
 <div class="progress-gif">
   <div class="panel panel-default">
     <div class="panel-body text-center">
-      <img src="/images/loginAndRegister/progress.gif">
+      <img src="/camplus/images/loginAndRegister/progress.gif">
       <h5>Loading...</h5>
     </div>
   </div>
 </div>
 
 <!-- date time picker -->
-<script type="text/javascript" src="../../external/datepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/camplus/external/datepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
 <script type="text/javascript">
   $('.form_datetime').datetimepicker({
     weekStart: 1,
@@ -420,6 +420,26 @@
     startView: 2,
     forceParse: 0,
     showMeridian: 1
+  });
+</script>
+<script type="text/javascript">
+  $('#sendOrder').click(function (event) {
+    event.preventDefault();
+    $.ajax({
+      cache: true,
+      type: "GET",
+      url:"/camplus/carpool/new",
+      data:$('#orderForm').serialize(),
+      async: false,
+      error: function(request) {
+
+        window.location.reload();
+      },
+      success: function(data) {
+        window.location.reload();
+      }
+    });
+    return false;
   });
 </script>
 </body>

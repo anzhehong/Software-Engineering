@@ -57,12 +57,23 @@ public class CarpoolServiceImp implements CarpoolService{
         List<CarpoolOrder> cos=carpoolOrderDAO.querybyDestAndDept(dest, dept);
         Iterator<CarpoolOrder> iter=cos.iterator();
         Scanner sc=new Scanner(date);
-        sc.useDelimiter("/");
-        Integer goyear=Integer.parseInt(sc.next().trim());
-        Integer gomonth=Integer.parseInt(sc.next().trim());
-        Integer goday=Integer.parseInt(sc.next().trim());
-        Integer gohour=Integer.parseInt(hour);
-        Integer gominute=Integer.parseInt(minute);
+
+        String[] strings = date.split(" ");
+        String[] yearmonthday = strings[0].split("-");
+        String[] hourminute = strings[1].split(":");
+
+        Integer goyear = Integer.parseInt(yearmonthday[0]);
+        Integer gomonth = Integer.parseInt(yearmonthday[1]);
+        Integer goday = Integer.parseInt(yearmonthday[2]);
+        Integer gohour = Integer.parseInt(hourminute[0]);
+        Integer gominute = Integer.parseInt(hourminute[1]);
+
+//        sc.useDelimiter("-");
+//        Integer goyear=Integer.parseInt(sc.next().trim());
+//        Integer gomonth=Integer.parseInt(sc.next().trim());
+//        Integer goday=Integer.parseInt(sc.next().trim());
+//        Integer gohour=Integer.parseInt(hour);
+//        Integer gominute=Integer.parseInt(minute);
         OrderResolver or=new OrderResolver(goyear,gomonth,goday,gohour,gominute);
         PriorityQueue<CarpoolOrder> filtered=new PriorityQueue<CarpoolOrder>(or);
         while(iter.hasNext()){
