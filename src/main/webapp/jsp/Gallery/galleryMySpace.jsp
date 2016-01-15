@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Space | Camplus</title>
     <!-- bootstrap css -->
     <link href="/camplus/external/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <!-- TODO: 这里要添加所有标签的URL -->
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
+                    <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
                     <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
                     <li class="dropdown">
@@ -43,7 +43,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="<c:url value="/gallery"></c:url>">Album</a></li>
                             <li><a href="<c:url value="/gallery/hotComment"></c:url>">Hot</a></li>
-                            <li><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
+                            <li class="active"><a href="<c:url value="/gallery/mySpace"></c:url>">My space</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
