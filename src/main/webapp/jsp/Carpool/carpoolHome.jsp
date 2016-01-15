@@ -83,6 +83,7 @@
         },
         complete: function (xhr, status) {
           console.log("completed");
+          window.location.reload();
         }
       });
     }
@@ -288,15 +289,67 @@
             </c:forEach>
             </tbody>
           </table>
-          <nav>
-            <!-- TODO: 翻页功能 -->
-            <ul class="pager">
-              <li><a href="#" class="inverse">Head</a></li>
-              <li><a href="#">Previous</a></li>
-              <li><a href="#">Next</a></li>
-              <li><a href="#" class="inverse">Tail</a></li>
-            </ul>
-          </nav>
+          <%
+            if(request.getAttribute("departure")==null||request.getAttribute("destination")==null){
+          %>
+          </table>
+          <div class="container">
+            <div class="page-select">
+              <form action="/camplus/carpool/select" method="get">
+                <input type="submit" name="indexmove" value="head"/>
+              </form>
+              <form action="/camplus/carpool/select" method="get">
+                <input type="submit" name="indexmove" value="prev"/>
+              </form>
+              <form action="/camplus/carpool/select" method="get">
+                <input type="text" name="indexmove" value="${totalpage}"/>
+                <input type="submit" value="Go"/>
+              </form>
+              <form action="/camplus/carpool/select" method="get">
+                <input type="submit" name="indexmove" value="next"/>
+              </form>
+              <form action="/camplus/carpool/select" method="get">
+                <input type="submit" name="indexmove" value="tail"/>
+              </form>
+            </div>
+          </div>
+          <%
+          }else{
+          %>
+          </table>
+          <div class="container">
+            <div class="page-select">
+              <form action="/camplus/carpool/select" method="get">
+                <input type="hidden" name="departure" value="${requestScope.departure}"/>
+                <input type="hidden" name="destination" value="${requestScope.destination}"/>
+                <input type="submit" name="indexmove" value="head"/>
+              </form>
+              <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
+                <input type="hidden" name="departure" value="${requestScope.departure}"/>
+                <input type="hidden" name="destination" value="${requestScope.destination}"/>
+                <input type="submit" name="indexmove" value="prev"/>
+              </form>
+              <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
+                <input type="hidden" name="departure" value="${requestScope.departure}"/>
+                <input type="hidden" name="destination" value="${requestScope.destination}"/>
+                <input type="text" name="indexmove" value="${sessionScope.index+1}"/>
+                <input type="submit" value="Go"/>
+              </form>
+              <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
+                <input type="hidden" name="departure" value="${requestScope.departure}"/>
+                <input type="hidden" name="destination" value="${requestScope.destination}"/>
+                <input type="submit" name="indexmove" value="next"/>
+              </form>
+              <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
+                <input type="hidden" name="departure" value="${requestScope.departure}"/>
+                <input type="hidden" name="destination" value="${requestScope.destination}"/>
+                <input type="submit" name="indexmove" value="tail"/>
+              </form>
+            </div>
+          </div>
+          <%
+            }
+          %>
         </div>
       </div>
 

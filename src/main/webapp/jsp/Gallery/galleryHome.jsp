@@ -93,8 +93,8 @@
                             <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal" class="imgId" data-likeTime = "${var.image.galleryImageLoveCount}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"  data-imageid="${var.image.galleryImageId}"></a>
                             <h4>
                                 <!-- TODO: 点赞功能 -->
-                                <a class="upThumb" href="javascript:void(0);" onclick="thumbUp($(this), $(this).parents().children('.imgId').data('imageid'))"><span class="glyphicon glyphicon-heart glyphicon-${var.image.galleryImageId}" aria-hidden="true"></span>
-                                </a> <span id="gallery-img-${var.image.galleryImageId}">${var.image.galleryImageLoveCount}</span>
+                                <a class="upThumb" href="javascript:void(0);" onclick="thumbUp($(this), $(this).parents().children('.imgId').data('imageid'))"><span class="glyphicon glyphicon-heart glyphicon-${var.image.galleryImageId}" aria-hidden="true"></span></a>
+                                <span id="gallery-img-${var.image.galleryImageId}">${var.image.galleryImageLoveCount}</span>
                             </h4>
                             <hr>
                             <!-- TODO: 填入名字（或学号） -->
@@ -102,7 +102,6 @@
                         </div>
                     </div>
                 </div>
-
             </c:forEach>
             </div>
         </div>
@@ -139,7 +138,6 @@
             <p>&copy; 2015-2016  &middot; <a href="home">Camplus</a> &middot; All rights reserved.</p>
         </div>
     </footer>
-
     <!-- Modal -->
     <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
@@ -166,11 +164,11 @@
                 <div class="modal-footer">
                     <form id="comSumbit"  method="post">
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Your comment here..."></textarea>
+                            <textarea class="form-control" name="message" placeholder="Your comment here..."></textarea>
                         </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <!-- TODO: 提交评论 -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -190,6 +188,7 @@
         });
     </script>
     <script type="text/javascript">
+        var action = 'gallery/comment?imageId=';
         $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)// Button that triggered the modal
             var recipient = button.data('imageid')
@@ -202,7 +201,26 @@
             modal.find('.img-responsive').attr('src',imgpath);
             modal.find('.likeCount').text = likeTime
             modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
+            action = action+recipient;
         })
+          //  modal.find('#comSumbit').attr('action','gallery/comment?imageId='+recipient)
+        $('#comment').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:action,
+                data:$('#comSumbit').serialize(),
+                async: false,
+                error: function(request) {
+                    window.location.reload();
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
+            return false;
+        });
     </script>
     <script type="text/javascript">
         function thumbUp(btn,imageId){
@@ -210,7 +228,7 @@
             $.get('/camplus/gallery/likeOrDislike?imageId=' + imageId,function(data){
                 $(".glyphicon-"+imageId).toggleClass("active");
                 var originalCount = parseInt($("#gallery-img-"+imageId).html());
-                if($(btn).hasClass("active")){
+                if($(".glyphicon-"+imageId).hasClass("active")){
                     originalCount --;
                 } else {
                     originalCount ++;
@@ -220,6 +238,5 @@
             return false;
         };
     </script>
-
 </body>
 </html>

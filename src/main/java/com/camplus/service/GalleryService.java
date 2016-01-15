@@ -32,4 +32,6 @@ public interface GalleryService {
 
     void likeAPhoto(String imageId);
     void unLikeAPhoto(String imageId);
+
+    GalleryImage getImageById(String imageId);
 }

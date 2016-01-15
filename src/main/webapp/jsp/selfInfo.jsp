@@ -16,8 +16,8 @@
     <script src="../external/bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/selfinfo.js"></script>
     <!-- custom -->
-    <link rel="stylesheet" type="text/css" href="../css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../css/selfinfo.css">
+    <link rel="stylesheet" type="text/css" href="/camplus/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/camplus/css/selfinfo.css">
 </head>
 <body>
     <div class="navbar navbar-inverse">
@@ -60,6 +60,7 @@
                   User currentUser = (User)session.getAttribute("userSession");
                   String userName = currentUser.getUserName();
                   String userId = currentUser.getUserId();
+                  String userAvator = currentUser.getUserAvator();
           %>
 
 
@@ -84,7 +85,7 @@
                 <div class="panel-body">
                     <div class="form-group" id="uid-form">
                         <div class="text-center">
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><img class="img-circle" src="../images/avatar/1.jpg" width="120" height="120" id="avatar-img"></a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><img class="img-circle" src="/camplus/images/avatar/<%=userAvator%>.jpg" width="120" height="120" id="avatar-img"></a>
                         </div>
                         <!-- TODO: 这里我写好js了，会把选择的图片名字放在下面input的value里，拿value就好，初始的value和上面放图片的url相对 -->
                         <input type="text" style="display:none;" name="avatar" class="form-control" id="avatar" value="" contenteditable="false">
@@ -130,17 +131,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(1)"><img class="img-circle img-responsive" src="../images/avatar/1.jpg"></a></div>
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(2)"><img class="img-circle img-responsive" src="../images/avatar/2.jpg"></a></div>
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(3)"><img class="img-circle img-responsive" src="../images/avatar/3.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(1)"><img class="img-circle img-responsive" src="/camplus/images/avatar/1.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(2)"><img class="img-circle img-responsive" src="/camplus/images/avatar/2.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(3)"><img class="img-circle img-responsive" src="/camplus/images/avatar/3.jpg"></a></div>
                         <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(4)"><img class="img-circle img-responsive" src="../images/avatar/4.jpg"></a></div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(5)"><img class="img-circle img-responsive" src="../images/avatar/5.jpg"></a></div>
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(6)"><img class="img-circle img-responsive" src="../images/avatar/6.jpg"></a></div>
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(7)"><img class="img-circle img-responsive" src="../images/avatar/7.jpg"></a></div>
-                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(8)"><img class="img-circle img-responsive" src="../images/avatar/8.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(5)"><img class="img-circle img-responsive" src="/camplus/images/avatar/5.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(6)"><img class="img-circle img-responsive" src="/camplus/images/avatar/6.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(7)"><img class="img-circle img-responsive" src="/camplus/images/avatar/7.jpg"></a></div>
+                        <div class="col-xs-3"><a href="javascript:void(0)" onclick="choosePic(8)"><img class="img-circle img-responsive" src="/camplus/images/avatar/8.jpg"></a></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -163,6 +164,7 @@
             $("#avatar").attr("value",index);
             // TODO: 修改这里图片的路径
             $("#avatar-img").attr("src", "/camplus/images/avatar/" + index + ".jpg");
+            $("#avatar").attr("value",index);
             $("#myModal").modal('hide');
         }    
     </script>

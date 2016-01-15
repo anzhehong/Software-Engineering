@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class GalleryImage {
+public class GalleryImage implements Comparable<GalleryImage>{
 
     @Id
     private String galleryImageId;
@@ -40,5 +40,10 @@ public class GalleryImage {
 
     public void setGalleryImageLoveCount(int galleryImageLoveCount) {
         this.galleryImageLoveCount = galleryImageLoveCount;
+    }
+
+    @Override
+    public int compareTo(GalleryImage o) {
+        return Integer.compare(o.getGalleryImageLoveCount(),this.galleryImageLoveCount);
     }
 }
