@@ -226,9 +226,9 @@
                 $(".glyphicon-"+imageId).toggleClass("active");
                 var originalCount = parseInt($("#gallery-img-"+imageId).html());
                 if($(".glyphicon-"+imageId).hasClass("active")){
-                    originalCount --;
-                } else {
                     originalCount ++;
+                } else {
+                    originalCount --;
                 }
                 $("#gallery-img-"+imageId).html(originalCount);
             });

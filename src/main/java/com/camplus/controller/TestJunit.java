@@ -1,6 +1,7 @@
 package com.camplus.controller;
 
 import com.camplus.entity.Course;
+import com.camplus.entity.JavaMD5Util;
 import com.camplus.service.CourseService;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,6 +38,8 @@ public class TestJunit {
         courses = courseService.getCoursesByCourseNameAndTeacherName("软件工程","");
         System.out.println("Course size with name 软件工程： "+ courses.size());
 
+        String testMD5 = "123";
+        System.out.println(JavaMD5Util.MD5(testMD5));
     }
 }
 
