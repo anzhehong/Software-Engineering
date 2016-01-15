@@ -112,7 +112,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/camplus/jsp/index.jsp">Home</a></li>
         <li class="active"><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-        <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+        <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
         <li class="dropdown">
           <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -289,14 +289,14 @@
             </c:forEach>
             </tbody>
           </table>
+
           <%
             if(request.getAttribute("departure")==null||request.getAttribute("destination")==null){
           %>
-          </table>
-          <div class="container">
+          <div class="text-center">
             <div class="page-select">
               <form action="/camplus/carpool/select" method="get">
-                <input type="submit" name="indexmove" value="head"/>
+                <input class="inverse" type="submit" name="indexmove" value="head"/>
               </form>
               <form action="/camplus/carpool/select" method="get">
                 <input type="submit" name="indexmove" value="prev"/>
@@ -309,7 +309,7 @@
                 <input type="submit" name="indexmove" value="next"/>
               </form>
               <form action="/camplus/carpool/select" method="get">
-                <input type="submit" name="indexmove" value="tail"/>
+                <input class="inverse" type="submit" name="indexmove" value="tail"/>
               </form>
             </div>
           </div>
@@ -317,12 +317,12 @@
           }else{
           %>
           </table>
-          <div class="container">
+          <div class="text-center">
             <div class="page-select">
               <form action="/camplus/carpool/select" method="get">
                 <input type="hidden" name="departure" value="${requestScope.departure}"/>
                 <input type="hidden" name="destination" value="${requestScope.destination}"/>
-                <input type="submit" name="indexmove" value="head"/>
+                <input class="inverse" type="submit" name="indexmove" value="head"/>
               </form>
               <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
                 <input type="hidden" name="departure" value="${requestScope.departure}"/>
@@ -343,13 +343,14 @@
               <form action="/camplus/carpool/select?departure=${requestScope.departure}&desination=${requestScope.destination}" method="get">
                 <input type="hidden" name="departure" value="${requestScope.departure}"/>
                 <input type="hidden" name="destination" value="${requestScope.destination}"/>
-                <input type="submit" name="indexmove" value="tail"/>
+                <input class="inverse" type="submit" name="indexmove" value="tail"/>
               </form>
             </div>
           </div>
           <%
             }
           %>
+
         </div>
       </div>
 

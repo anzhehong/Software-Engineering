@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-                    <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+                    <li><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">

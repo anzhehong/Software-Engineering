@@ -105,28 +105,25 @@
             </c:forEach>
             </div>
         </div>
-        <div>
-            <nav>
-                <!-- TODO: 翻页功能 -->
-                <ul class="pager">
-                    <form action="/camplus/gallery" method="get">
-                        <input type="submit" name="indexmove" value="head"/>
-                    </form>
-                    <form action="/camplus/gallery" method="get">
-                      <input type="submit" name="indexmove" value="prev"/>
-                    </form>
-                    <form action="/camplus/gallery" method="get">
-                      <input type="text" name="indexmove" value="${sessionScope.index+1}" />
-                      <input type="submit" value="Go"/>
-                    </form>
-                    <form action="/camplus/gallery" method="get">
-                      <input type="submit" name="indexmove" value="next"/>
-                    </form>
-                    <form action="/camplus/gallery" method="get">
-                      <input type="submit" name="indexmove" value="tail"/>
-                    </form>
-                </ul>
-            </nav>
+        <div class="text-center">
+            <div class="page-select">
+                <form action="/camplus/gallery" method="get">
+                    <input class="inverse" type="submit" name="indexmove" value="head"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="submit" name="indexmove" value="prev"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="text" name="indexmove" value="${sessionScope.index+1}" />
+                  <input type="submit" value="Go"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input type="submit" name="indexmove" value="next"/>
+                </form>
+                <form action="/camplus/gallery" method="get">
+                  <input class="inverse" type="submit" name="indexmove" value="tail"/>
+                </form>
+            </div>
         </div>
     </div>
     

@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
                     <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
-                    <li class="active"><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
+                    <li class="active"><a href="/camplus/courseDiscussion/search?courseName=&teacherName=">Course</a></li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -124,23 +124,14 @@
                                     <td>${course.coursePlace}</td>
                                     <!-- TODO: 记得这个 window.location 改一下URL -->
                                     <td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" onclick="window.location='<c:url value="/courseDiscussion/showDetail">
-                 <c:param name="action" value="nameDetail"></c:param>
-                 <c:param name="courseId" value="${course.courseId}"></c:param>
-                 <c:param name="index" value=""></c:param>
-                  </c:url>'">Comment</button></td>
+                                     <c:param name="action" value="nameDetail"></c:param>
+                                     <c:param name="courseId" value="${course.courseId}"></c:param>
+                                     <c:param name="index" value=""></c:param>
+                                      </c:url>'">Comment</button></td>
                                 </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-                        <nav>
-                            <!-- TODO: 翻页功能，这里没有翻页 -->
-                            <ul class="pager">
-                                <li><a href="#" class="inverse">Head</a></li>
-                                <li><a href="#">Previous</a></li>
-                                <li><a href="#">Next</a></li>
-                                <li><a href="#" class="inverse">Tail</a></li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
 
