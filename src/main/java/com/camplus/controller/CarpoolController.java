@@ -39,13 +39,13 @@ public class CarpoolController {
         if(departure==null&&destination==null){
             cop=carpoolService.getAllOrder();
         }else{
-            if(datepicker==null||hour==null||number==null){
-                Date date = new Date();
-                hour = "" + date.getHours();
-                minute = "" + date.getMinutes();
-                datepicker = "" + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-                number = "" + 0;
-            }
+//            if(datepicker==null||hour==null||number==null){
+//                Date date = new Date();
+//                hour = "" + date.getHours();
+//                minute = "" + date.getMinutes();
+//                datepicker = "" + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
+//                number = "" + 0;
+//            }
             cop=carpoolService.getAllbyAll(destination,departure,datepicker,hour,minute,number);
             request.setAttribute("departure",departure);
             request.setAttribute("destination",destination);

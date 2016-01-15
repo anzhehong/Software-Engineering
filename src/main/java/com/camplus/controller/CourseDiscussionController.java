@@ -61,6 +61,8 @@ public class CourseDiscussionController {
             messageResults.add(temp);
         }
 
+
+
         courseInfo.addAttribute("result",messageResults);
 
         session.setAttribute("courseId", courseId);
@@ -68,8 +70,8 @@ public class CourseDiscussionController {
         return "CourseDiscussion/showDiscussionBoard";
     }
     public class MessageResult {
-        private CourseMessage courseMessage;
-        private String messageGiverImageId;
+        public CourseMessage courseMessage;
+        public String messageGiverImageId;
 
         public CourseMessage getCourseMessage() {
             return courseMessage;

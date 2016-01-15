@@ -2,6 +2,7 @@ package com.camplus.controller;
 
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -120,6 +121,8 @@ public class UserController {
 
     @RequestMapping("/editInfoChanged")
     public String editInfoChanged(HttpSession session, Model model, String uid, String uname, String contact, String password, String repassword, String avatar) {
+
+        System.out.println("Testing:"+avatar);
         User user = (User) session.getAttribute("userSession");
         model.addAttribute("studentnum", user.getUserId());
 
@@ -145,6 +148,7 @@ public class UserController {
             tempUser.setUserMobile(contact);
         }else tempUser.setUserMobile(user.getUserMobile());
         userService.updateUser(tempUser);
+        session.setAttribute("userSession",tempUser);
         return "index";
     }
 }

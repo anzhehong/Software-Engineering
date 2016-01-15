@@ -273,14 +273,14 @@ public class GalleryController {
     }
 
     @RequestMapping("/comment")
-    String newComment(String imageId,HttpSession session,String message,Model model) {
+    void newComment(String imageId,HttpSession session,String message,Model model) {
         GalleryComment gc=new GalleryComment();
         gc.setGalleryImgId(imageId);
         gc.setGalleryCommentContent(message);
-        gc.setGalleryCommentId(((User)session.getAttribute("userSession")).getUserId()+new Date().getTime());
+        gc.setGalleryCommentId(((User) session.getAttribute("userSession")).getUserId() + new Date().getTime());
         service.addNewComment(gc);
         model.addAttribute("givenMessage","You have successfully commented!");
-        return "Gallery/galleryNotification";
+        //return "Gallery/galleryNotification";
     }
 
     @RequestMapping("/mySpace")
@@ -392,7 +392,7 @@ public class GalleryController {
                     service.upload(gi);
                 }
             }
-            model.addAttribute("givenMessage","Successfully Uploaded!");
+            model.addAttribute("givenMessage", "Successfully Uploaded!");
             return "Gallery/galleryNotification";
         }catch(Exception e){
             e.printStackTrace();
