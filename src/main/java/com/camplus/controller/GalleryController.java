@@ -193,8 +193,10 @@ public class GalleryController {
         for (int i = 0; i < images.size(); i++)
         {
             List<GalleryComment> tempCommentList = service.getAllCommentsByImageId(imageId);
+            String userName = userService.getById(imageId).getUserName();
             HotResult hotResult = new HotResult();
             hotResult.setImage(images.get(i));
+            hotResult.setUserName(userName);
             hotResult.setGalleryComments(tempCommentList);
             hotResults.add(hotResult);
         }
@@ -206,6 +208,15 @@ public class GalleryController {
     public class HotResult{
         private GalleryImage image;
         private List<GalleryComment> galleryComments;
+        private String userName;
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
 
         public GalleryImage getImage() {
             return image;
