@@ -81,4 +81,9 @@ public class GalleryServiceImp implements GalleryService {
         GalleryImage imageToChange = galleryDAO.queryById(imageId);
         imageToChange.setGalleryImageLoveCount(imageToChange.getGalleryImageLoveCount() - 1);
     }
+
+    @Override
+    public GalleryImage getImageById(String imageId) {
+        return galleryDAO.queryById(imageId);
+    }
 }
