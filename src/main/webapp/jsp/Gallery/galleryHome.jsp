@@ -63,7 +63,6 @@
 
 
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- TODO: 这里要处理一下session，现在注释的部分是没有登录的 -->
                    <!-- <button type="button" onclick="signup()" class="btn btn-signup navbar-btn">Sign up</button>
                     <button type="button" onclick="signin()" class="btn btn-signin navbar-btn">Sign in</button>-->
                      <li><a href="<c:url value="/user/editInfo"></c:url>"><%=userName%></a></li>
@@ -80,7 +79,6 @@
         <div class="center">
             <br>
             <div id="masonry" class="container-fluid">
-                <!-- TODO: 一个box为一个单位，动态添加图片和评论 -->
          <c:forEach var="var" items="${Result}">
                 <div class="box">
                     <div class="thumbnail">
@@ -89,14 +87,11 @@
                             <div class="circle"></div>
                         </div>
                         <div class="caption text-center">
-                            <!-- TODO: 填入图片 -->
                             <a href="#" data-toggle="modal" data-target="#myModal" class="imgId" data-whatever="${var.userName}" data-imageid="${var.image.galleryImageId}"><img class="img-responsive" src="/camplus/images/gallery/s${var.image.galleryImageId}.png"></a>
                             <h4>
-                                <!-- TODO: 点赞功能 -->
                                 <a class="upThumb" href="javascript:void(0);" ><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a> ${var.image.galleryImageLoveCount}
                             </h4>
                             <hr>
-                            <!-- TODO: 填入名字（或学号） -->
                             <div>Committed by <label>${var.userName}</label></div>
                         </div>
                     </div>
@@ -106,7 +101,6 @@
         </div>
         <div>
             <nav>
-                <!-- TODO: 翻页功能 -->
                 <ul class="pager">
                    <form action="/camplus/gallery" method="get">
                      <input type="submit" name="indexmove" value="head"/>
@@ -146,15 +140,9 @@
                     <h4 class="modal-title" id="myModalLabel">View Picture</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- TODO: 填入图片 -->
                     <a href="" class="likeCount" data-toggle="modal" data-target="#myModal"><img class="img-responsive"></a>
                     <div class="row">
-                        <div class="col-md-6">
-                            <h4>
-                                <!-- TODO: 点赞功能 -->
-                                <a class="upThumb" href="#"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
-                            </h4>
-                        </div>
+
                         <div class="col-md-6">
                             <p class="text-right">Committed by <label class="nameLabel">Fowafolo</label></p>
                         </div>
@@ -166,7 +154,6 @@
                             <textarea class="form-control" name="message" placeholder="Your comment here..."></textarea>
                         </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <!-- TODO: 提交评论 -->
                     <button type="submit" id="comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
