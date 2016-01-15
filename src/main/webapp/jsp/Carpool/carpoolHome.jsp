@@ -109,8 +109,8 @@
     <div class="collapse navbar-collapse" id="navbar">
       <!-- TODO: 这里要添加所有标签的URL -->
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/camplus/jsp/index.jsp">Home</a></li>
-        <li><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
+        <li ><a href="/camplus/jsp/index.jsp">Home</a></li>
+        <li class="active"><a href="<c:url value="/carpool/select"></c:url>">Carpool</a></li>
         <li><a href="/camplus/jsp/CourseDiscussion/courseSearch.jsp">Course</a></li>
         <li class="dropdown">
           <a href="#" data-toggle="dropdown">Gallery<span class="caret"></span></a>
