@@ -33,13 +33,13 @@ private UserService userService;
         int flag = userService.checkIdentity(userId, JavaMD5Util.MD5(userPassword));
         System.out.println(flag);
         if (flag==0){
-            user.addAttribute("message","用户名不存在！");
+            user.addAttribute("message",Constant.checkInvalidUserIdMsg);
             return "loginFail";
         }else if (flag==1){
-            user.addAttribute("message","密码错误");
+            user.addAttribute("message", Constant.checkInvalidPasswordMsg);
             return "loginFail";
         }else {
-            user.addAttribute("message","登录成功！");
+            user.addAttribute("message",Constant.checkSuccessfullyMsg);
             String userName = userService.getById(userId).getUserName();
             user.addAttribute("userName",userName);
 
@@ -47,6 +47,7 @@ private UserService userService;
             return "index";
         }
     }
+
     @RequestMapping("/checkUserIdExist")
     @ResponseBody
     public boolean check(String userId){

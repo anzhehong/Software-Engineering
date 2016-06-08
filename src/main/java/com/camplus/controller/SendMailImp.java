@@ -144,6 +144,7 @@ public class SendMailImp implements SendMail {
             sendMailImp.setSocket(socket);
             sendMailImp.setInput(input);
             sendMailImp.setOutput(output);
+            System.out.println("Socket set up!!!");
         }
         catch (UnknownHostException e) {
             e.printStackTrace();

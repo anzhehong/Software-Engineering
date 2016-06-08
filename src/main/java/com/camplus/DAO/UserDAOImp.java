@@ -32,6 +32,10 @@ public class UserDAOImp extends GeneralDAOImp<User> implements UserDAO {
 //    }
 //
     public int checkUserIdentity(String userId, String userPassword) {
+
+//        if (userId == null || userPassword == null) {
+//            return 4;
+//        }
         String hql = "from User where userId= ? ";
         Query query = super.sessionFactory.getCurrentSession().createQuery(hql);
         query.setString(0,userId);

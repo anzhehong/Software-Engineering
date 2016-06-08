@@ -3,7 +3,6 @@ package com.camplus.controller;
 import com.camplus.entity.JavaMD5Util;
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,19 +88,19 @@ public class UserController {
 //
 //
         if (uname == null) {
-            model.addAttribute("givenMessage", "请完成下列表格！");
+            model.addAttribute("givenMessage", Constant.editInfoFormHint);
             return "selfInfo";
         } else if (contact == null) {
-            model.addAttribute("givenMessage", "请重新输入你的联系方式！");
+            model.addAttribute("givenMessage", Constant.editInfoContactHint);
             return "selfInfo";
         } else if (password == null) {
-            model.addAttribute("givenMessage", "请输入你的新密码！");
+            model.addAttribute("givenMessage", Constant.editInfoPasswordHint);
             return "selfInfo";
         } else if (repassword == null) {
-            model.addAttribute("givenMessage", "请确认你的新密码！");
+            model.addAttribute("givenMessage", Constant.editInfoRePasswordHint);
             return "selfInfo";
         } else if (!password.equals(repassword)) {
-            model.addAttribute("givenMessage", "您两次输入的密码不一致，请重新确认！");
+            model.addAttribute("givenMessage", Constant.editInfoPasswordNotSameHint);
             return "selfInfo";
         } else {
             User nuser = new User();
