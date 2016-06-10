@@ -52,12 +52,14 @@ jQuery(function($){
             rules:{
                 password:{
                     required:true,
-                    minlength:5
+                    minlength:5,
+                    maxlength:13
                 },
                 repassword:{
                     required:true,
                     minlength:5,
-                    equalTo:"#password"
+                    equalTo:"#password",
+                    maxlength:13
                 },
                 uname:{
                     required:true
@@ -70,12 +72,14 @@ jQuery(function($){
 
                 password:{
                     required:"密码也不填啊亲╭(╯3╰)╮",
-                    minlength:"密码不能少于5位"
+                    minlength:"密码不能少于5位",
+                    maxlength:"密码不能多于12位啊!"
                 },
                 repassword:{
                     required:"记得要验证密码啊╭(╯3╰)╮",
                     minlength:"确认密码不能少于5喂",
-                    equalTo: "两次输入密码不一致"
+                    equalTo: "两次输入密码不一致",
+                    maxlength:"密码不能多于12位啊!"
                 },
                 uname:{
                     required:"请输入姓名！"
@@ -104,11 +108,11 @@ jQuery(function($){
                 },
                 userPassword:{
                     required:true,
-                    minlength:5
+                    rangelength:[6,12]
                 },
                 userPasswordAgain:{
                     required:true,
-                    minlength:5,
+                    rangelength:[6,12],
                     equalTo:"#userPassword"
                 },
                 userName:{
@@ -124,11 +128,11 @@ jQuery(function($){
                 },
                 userPassword:{
                     required:"密码也不填啊亲╭(╯3╰)╮",
-                    minlength:"密码不能少于5位"
+                    rangelength:"密码不能少于5位,不能多于12位"
                 },
                 userPasswordAgain:{
                     required:"记得要验证密码啊╭(╯3╰)╮",
-                    minlength:"确认密码不能少于5喂",
+                    rangelength:"确认密码不能少于5位,不能多于12位",
                     equalTo: "两次输入密码不一致"
                 },
                 userName:{
