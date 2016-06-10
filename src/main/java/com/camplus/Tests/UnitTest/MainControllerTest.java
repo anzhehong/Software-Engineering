@@ -135,7 +135,11 @@ public class MainControllerTest {
     }
 
     private void checkHandle(String userId, String userPassword, int expectedValue) {
-        int flag = userService.checkIdentity(userId, JavaMD5Util.MD5(userPassword));
+
+        int flag;
+        if (userPassword!=null)
+            flag = userService.checkIdentity(userId, JavaMD5Util.MD5(userPassword));
+        else flag = 4;
         assertEquals(expectedValue, flag);
     }
 
