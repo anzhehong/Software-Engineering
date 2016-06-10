@@ -38,7 +38,12 @@ private UserService userService;
         }else if (flag==1){
             user.addAttribute("message", Constant.checkInvalidPasswordMsg);
             return "loginFail";
-        }else {
+        }else if (flag==4) {
+            user.addAttribute("message", Constant.checkNullInfoMsg);
+            return "loginFail";
+
+        }
+        else {
             user.addAttribute("message",Constant.checkSuccessfullyMsg);
             String userName = userService.getById(userId).getUserName();
             user.addAttribute("userName",userName);
