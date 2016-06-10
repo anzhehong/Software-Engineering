@@ -1,5 +1,6 @@
 package com.camplus.Tests.UnitTest;
 
+import com.camplus.Util.Validator;
 import com.camplus.controller.Constant;
 import com.camplus.entity.JavaMD5Util;
 import com.camplus.entity.User;
@@ -75,6 +76,17 @@ public class UserControllerTest {
         assertEquals(result, Constant.editInfoSuccessfullyHint);
 
         /**
+         * 电话号码符合规定
+         */
+        assertEquals(true, editInfoCheckPhoneValid(contact));
+
+        contact = "113fff";
+        /**
+         * 电话号码符合不规定
+         */
+        assertEquals(false, editInfoCheckPhoneValid(contact));
+
+        /**
          * 输入的新密码长度不在6-12位之间
          */
         password="123";
@@ -132,6 +144,12 @@ public class UserControllerTest {
         else resultMsg = Constant.editInfoPasswordNotLongEnoughHint;
 
         return resultMsg;
+    }
+
+    private boolean editInfoCheckPhoneValid(String contact) {
+        boolean flag = false;
+        flag = Validator.isMobile(contact);
+        return flag;
     }
 
 }
