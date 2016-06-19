@@ -11,9 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by fowafolo
@@ -134,7 +132,31 @@ public class CarpoolControllerTest {
 
     @Test
     public void getDetail() throws Exception {
+        /**
+         * IT_TC_001_003_001
+         * 根据某拼车信息的ID号可以查看其详细信息。
+         */
+        String orderId="13529581435078598379";
+        String ownerId="1352834";
 
+        handleGetDetail(orderId, ownerId);
+    }
+
+    private void handleGetDetail(String orderId,String ownerId){
+        CarpoolOrder order=carpoolService.getDetailbyId(orderId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("orderinfo",order);
+        boolean cancelButton = false;
+        String userId = "1352834";
+        if (order.getCarpoolSubscriber().equals(userId))
+            cancelButton = true;
+        String phoneNum = userService.getById(ownerId).getUserMobile();
+        result.put("cancelButton",cancelButton);
+        result.put("phoneNum",phoneNum);
+
+        System.out.println("----------------Test-------------------");
+        System.out.println(result);
+        System.out.println("---------------------------------------");
     }
 
     @Test()
