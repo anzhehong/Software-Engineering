@@ -20,4 +20,11 @@ public class Constant {
     static public String editInfoPasswordNotLongEnoughHint="密码需要在6-12位之间";
     static public String editInfoSuccessfullyHint="修改成功";
 
+    /**
+     * MainController
+     */
+    static public int InvalidUserIdFlag = 0;
+    static public int InvalidPasswordFlag = 1;
+    static public int NullInfoMsgFlag = 4;
+
 }
