@@ -25,6 +25,11 @@ public class CourseMsgServiceImp implements CourseMsgService{
         return arr;
     }
 
-    public void commitMessage(CourseMessage cm) {courseMsgDAO.insert(cm);}
+    public void commitMessage(CourseMessage cm) {
+        if (cm.getCourseMessContent().length()<=10)
+            courseMsgDAO.insert(cm);
+        else
+            ;
+    }
 
 }
