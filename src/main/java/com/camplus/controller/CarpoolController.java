@@ -53,7 +53,7 @@ public class CarpoolController {
 //                number = "" + 0;
 //            }
 
-            if (datepicker.equals(null) || datepicker.equals(""))
+            if (datepicker == null || datepicker.equals(""))
             {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 String date = df.format(new Date());
@@ -279,7 +279,7 @@ public class CarpoolController {
 
         int imonth=0, iday=0, iyear=0, ihour=0, iminute = 0;
 
-        if (Cdate.equals("") || Cdate.equals(null))
+        if (Cdate.equals("") || Cdate == null)
         {
             //TODO: 默认一天以后
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式

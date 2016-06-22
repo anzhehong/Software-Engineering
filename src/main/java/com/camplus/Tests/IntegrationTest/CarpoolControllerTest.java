@@ -51,22 +51,22 @@ public class CarpoolControllerTest {
 //        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
 //
 //        //2
-//        departure="虹桥火车站";
-//        hour="13";
-//        minute="00";
-//        datepicker=null;
-//        number="1";
-//        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
+        departure="虹桥火车站";
+        hour="13";
+        minute="00";
+        datepicker=null;
+        number="1";
+        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
 //
 //        //3
-//        departure=null;
-//        destination="虹桥火车站";
-//        hour="13";
-//        minute="00";
-////        datepicker="2015-10-01 02:10:00";
-//        datepicker=null;
-//        number="1";
-//        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
+        departure=null;
+        destination="虹桥火车站";
+        hour="13";
+        minute="00";
+//        datepicker="2015-10-01 02:10:00";
+        datepicker=null;
+        number="1";
+        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
 //
 //        /**
 //         * IT_TC_001_001_002
@@ -86,13 +86,13 @@ public class CarpoolControllerTest {
          * 出发人数未选择，即为默认值时，显示符合另外要求的一人的拼车订单信息。
          */
         //1
-        departure="四平路校区";
-        destination="虹桥火车站";
-        hour="13";
-        minute="00";
-        datepicker="2016-06-28 21:00:00";
-        number="1";
-        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
+//        departure="四平路校区";
+//        destination="虹桥火车站";
+//        hour="13";
+//        minute="00";
+//        datepicker="2016-06-28 21:00:00";
+//        number="1";
+//        handleSelectMenu(departure,destination,hour,minute,datepicker,number);
     }
 
     private void handleSelectMenu(String departure, String destination,
@@ -111,7 +111,7 @@ public class CarpoolControllerTest {
             System.out.println(cop.size());
             System.out.println("---------------------------------------");
         }else{
-            if (datepicker.equals(null) || datepicker.equals(""))
+            if (datepicker == null || datepicker.equals(""))
             {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 String date = df.format(new Date());

@@ -44,7 +44,7 @@ public class CourseDiscussionControllerTest {
 //                "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" +
 //                "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" +
 //                "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈我超过一百了!!!";
-        String msgcontent="哈哈哈哈哈哈哈哈哈哈";
+        String msgcontent="哈哈哈哈哈哈哈哈";
 
         CourseMessage cm=new CourseMessage();
         String userId = "1352834";
