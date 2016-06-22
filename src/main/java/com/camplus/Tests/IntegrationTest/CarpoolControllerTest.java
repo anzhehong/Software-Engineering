@@ -285,8 +285,12 @@ public class CarpoolControllerTest {
         co.setCarpoolDepartureTime(d);
         co.setCarpoolId("1352834"+new java.util.Date().getTime());
         System.out.println("----------------Test-------------------");
-        carpoolService.commit(co);
-        System.out.println("successfully create");
+        if (co.getCarpoolDestination().equals("")||co.getCarpoolOriginPlace().equals("")) {
+            System.out.println("something null");
+        }else {
+            carpoolService.commit(co);
+            System.out.println("successfully create");
+        }
         System.out.println("---------------------------------------");
     }
 

@@ -309,7 +309,10 @@ public class CarpoolController {
         Date d=new Date(iyear,imonth,iday,ihour,iminute);
         co.setCarpoolDepartureTime(d);
         co.setCarpoolId(user.getUserId()+new java.util.Date().getTime());
-        carpoolService.commit(co);
+        if (co.getCarpoolOriginPlace().equals("") || co.getCarpoolDestination().equals("")) {
+
+        }else
+            carpoolService.commit(co);
      //   return "/Carpool/carpoolNotification";
     }
 
