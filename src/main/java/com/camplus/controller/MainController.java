@@ -200,7 +200,6 @@ private UserService userService;
         String subject = "Camplus用户'" + userName + "'的来信";
         message.setSubject(subject);
         message.setUser("anzhehong");
-        String s = new String(messageToSend.getBytes(), "utf-8");
         message.setContent(messageToSend);
         message.setDatato("anzhehong@126.com");
         message.setDatafrom("anzhehong@qq.com");

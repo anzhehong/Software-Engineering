@@ -24,6 +24,17 @@ public class User implements Serializable{
     private String userMobile;
     private String userAvator;
 
+    public User() {
+    }
+
+    public User(int userExperience, String userId, int userLevel, String userName, String userPassword) {
+        this.userExperience = userExperience;
+        this.userId = userId;
+        this.userLevel = userLevel;
+        this.userName = userName;
+        this.userPassword = userPassword;
+    }
+
     public String getUserAvator() {
         return userAvator;
     }

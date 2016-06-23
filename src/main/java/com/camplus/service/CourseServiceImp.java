@@ -21,18 +21,10 @@ public class CourseServiceImp implements CourseService{
 
 
     public ArrayList<Course> getCoursesByCourseNameAndTeacherName(String courseName,String teacherName){
-
-
-        ArrayList<Course> courses = new ArrayList<Course>();
-        courses = courseDiscussDAO.getCoursesByCourseNameAndTeacherName(courseName,teacherName);
-        return courses;
+        return courseDiscussDAO.getCoursesByCourseNameAndTeacherName(courseName,teacherName);
     }
-
     public Course getCourseById(String courseId) {
-
-        Course course = new Course();
-        course = courseDiscussDAO.queryById(courseId);
-        return course;
+        return courseDiscussDAO.queryById(courseId);
     }
 
 }
