@@ -288,6 +288,60 @@ public class CarpoolController {
             String[] strings = Cdate.split(" ");
             String[] yearmonthday = strings[0].split("-");
             String[] hourminute = strings[1].split(":");
+            imonth = Integer.parseInt(yearmonthday[1]);
+            iday = Integer.parseInt(yearmonthday[2])+1;
+            iyear = Integer.parseInt(yearmonthday[0])-1900;
+            ihour = Integer.parseInt(hourminute[0]);
+            iminute = Integer.parseInt(hourminute[1]);
+        }else {
+            String[] strings = Cdate.split(" ");
+            String[] yearmonthday = strings[0].split("-");
+            String[] hourminute = strings[1].split(":");
+            imonth = Integer.parseInt(yearmonthday[1]);
+            iday = Integer.parseInt(yearmonthday[2]);
+            iyear = Integer.parseInt(yearmonthday[0])-1900;
+            ihour = Integer.parseInt(hourminute[0]);
+            iminute = Integer.parseInt(hourminute[1]);
+        }
+
+
+//        Date d=new Date(iyear-1900, imonth, iday, Integer.parseInt(Chour), Integer.parseInt(Cminute));
+        Date d=new Date(iyear,imonth,iday,ihour,iminute);
+        co.setCarpoolDepartureTime(d);
+        co.setCarpoolId(user.getUserId()+new java.util.Date().getTime());
+        if (co.getCarpoolOriginPlace().equals("") || co.getCarpoolDestination().equals("")) {
+
+        }else
+            carpoolService.commit(co);
+//        return "/Carpool/carpoolNotification";
+    }
+
+    @RequestMapping("/newToTest")
+    public String createNewToTest(HttpSession session,String cartype,String Cdestination,String Cdeparture,
+                          String requirement,String Cnumber,String Cdate,Model model){
+        ArrayList<CommenPlace> arrcp = (ArrayList<CommenPlace>) carpoolService.getAllPlace();
+        model.addAttribute("places", arrcp);
+        model.addAttribute("givenMessage","Successfully Commit Your Request!");
+        User user=(User)session.getAttribute("userSession");
+        CarpoolOrder co=new CarpoolOrder();
+        co.setCarpoolCarType(cartype);
+        co.setCarpoolDestination(Cdestination);
+        co.setCarpoolOriginPlace(Cdeparture);
+        co.setCarpoolSubscriber(user.getUserId());
+        co.setCarpoolSpecialRequirement(requirement);
+        co.setCarpoolNumberOfStudent(Integer.parseInt(Cnumber));
+
+        int imonth=0, iday=0, iyear=0, ihour=0, iminute = 0;
+
+        if (Cdate.equals("") || Cdate == null)
+        {
+            //TODO: 默认一天以后
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String date = df.format(new Date());
+            Cdate = date;
+            String[] strings = Cdate.split(" ");
+            String[] yearmonthday = strings[0].split("-");
+            String[] hourminute = strings[1].split(":");
             iyear = Integer.parseInt(yearmonthday[0])-1900;
             imonth = Integer.parseInt(yearmonthday[1]);
             iday = Integer.parseInt(yearmonthday[2])+1;
@@ -313,7 +367,7 @@ public class CarpoolController {
 
         }else
             carpoolService.commit(co);
-     //   return "/Carpool/carpoolNotification";
+           return "/Carpool/carpoolNotification";
     }
 
 }
