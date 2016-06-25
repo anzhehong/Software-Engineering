@@ -28,7 +28,7 @@ public class Validator {
     /**
      * 正则表达式：验证手机号
      */
-    public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+    public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[0-9]))\\d{8}$";
 
     /**
      * 正则表达式：验证邮箱
@@ -38,12 +38,12 @@ public class Validator {
     /**
      * 正则表达式：验证汉字
      */
-    public static final String REGEX_CHINESE = "^[\u4e00-\u9fa5],{0,}$";
+    public static final String REGEX_CHINESE = "([\u4e00-\u9fa5]+)";
 
     /**
      * 正则表达式：验证身份证
      */
-    public static final String REGEX_ID_CARD = "(^\\d{18}$)|(^\\d{15}$)";
+    public static final String REGEX_ID_CARD = "(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])";
 
     /**
      * 正则表达式：验证URL
