@@ -1,6 +1,7 @@
 package com.camplus.controller;
 
-import com.camplus.entity.JavaMD5Util;
+import com.camplus.Util.Constant;
+import com.camplus.Util.JavaMD5Util;
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

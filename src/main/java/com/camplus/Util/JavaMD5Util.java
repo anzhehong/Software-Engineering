@@ -1,7 +1,6 @@
-package com.camplus.entity;
+package com.camplus.Util;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by mark on 8/2/15.

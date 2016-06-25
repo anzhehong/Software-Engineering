@@ -1,7 +1,7 @@
 package com.camplus;
 
-import com.camplus.controller.SendMail;
-import com.camplus.controller.SendMailImp;
+import com.camplus.Util.SendMail;
+import com.camplus.Util.SendMailImp;
 import com.camplus.entity.MailMessage;
 
 import java.io.IOException;

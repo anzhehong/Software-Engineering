@@ -1,4 +1,4 @@
-package com.camplus.controller;
+package com.camplus.Util;
 
 import com.camplus.entity.MailMessage;
 import sun.misc.BASE64Encoder;

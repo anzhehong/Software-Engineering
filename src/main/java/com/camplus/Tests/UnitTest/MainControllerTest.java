@@ -1,9 +1,9 @@
 package com.camplus.Tests.UnitTest;
 
-import com.camplus.controller.Constant;
-import com.camplus.controller.SendMail;
-import com.camplus.controller.SendMailImp;
-import com.camplus.entity.JavaMD5Util;
+import com.camplus.Util.Constant;
+import com.camplus.Util.SendMail;
+import com.camplus.Util.SendMailImp;
+import com.camplus.Util.JavaMD5Util;
 import com.camplus.entity.MailMessage;
 import com.camplus.service.UserService;
 import org.junit.After;

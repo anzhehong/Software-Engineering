@@ -1,8 +1,8 @@
 package com.camplus.Tests.UnitTest;
 
 import com.camplus.Util.Validator;
-import com.camplus.controller.Constant;
-import com.camplus.entity.JavaMD5Util;
+import com.camplus.Util.Constant;
+import com.camplus.Util.JavaMD5Util;
 import com.camplus.entity.User;
 import com.camplus.service.UserService;
 import org.junit.Test;

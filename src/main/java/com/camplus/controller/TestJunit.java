@@ -1,7 +1,7 @@
 package com.camplus.controller;
 
 import com.camplus.entity.Course;
-import com.camplus.entity.JavaMD5Util;
+import com.camplus.Util.JavaMD5Util;
 import com.camplus.service.CourseService;
 import org.junit.BeforeClass;
 import org.junit.Test;
